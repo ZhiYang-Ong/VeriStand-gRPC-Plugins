@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CustomDevice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Custom Device.xsd">
+  <XSDVersion Major="2010" Minor="0" Fix="0" Build="0" />
+  <AddMenu>
+    <eng>gRPC Data Server</eng>
+    <loc>gRPC Data Server</loc>
+  </AddMenu>
+  <Version>1.0.0</Version>
+  <Type>Asynchronous</Type>
+  <MaxOccurrence>1</MaxOccurrence>
+  <MainPageGUID>3d66a51a-0196-4a83-8de6-7f3c7163e92c</MainPageGUID>
+  <InitializationVI>
+    <Type>Action</Type>
+    <Item2Launch>
+      <Type>To Common Doc Dir</Type>
+      <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Initialization VI.vi</Path>
+    </Item2Launch>
+  </InitializationVI>
+  <CustomDeviceVI>
+    <SourceDistribution>
+      <Source>
+        <SupportedTarget>Windows</SupportedTarget>
+        <Source>
+          <Type>To Common Doc Dir</Type>
+          <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Engine Windows.llb\RT Driver VI.vi</Path>
+        </Source>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Windows.llb\RT Driver VI.vi</RealTimeSystemDestination>
+      </Source>
+      <Source>
+        <SupportedTarget>Linux_32_ARM</SupportedTarget>
+        <Source>
+          <Type>To Common Doc Dir</Type>
+          <Path>Custom Devices\gRPC Data Server\Linux_32_ARM\gRPC Data Server Engine LinuxARM.llb\RT Driver VI.vi</Path>
+        </Source>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine LinuxARM.llb\RT Driver VI.vi</RealTimeSystemDestination>
+      </Source>
+      <Source>
+        <SupportedTarget>Linux_x64</SupportedTarget>
+        <Source>
+          <Type>To Common Doc Dir</Type>
+          <Path>Custom Devices\gRPC Data Server\Linux_x64\gRPC Data Server Engine Linux64.llb\RT Driver VI.vi</Path>
+        </Source>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Linux64.llb\RT Driver VI.vi</RealTimeSystemDestination>
+      </Source>
+    </SourceDistribution>
+  </CustomDeviceVI>
+  <Dependencies />
+  <Pages>
+    <Page>
+      <Name>
+        <eng>gRPC Data Server</eng>
+        <loc>gRPC Data Server</loc>
+      </Name>
+      <GUID>3d66a51a-0196-4a83-8de6-7f3c7163e92c</GUID>
+      <Glyph>
+        <Type>To Application Data Dir</Type>
+        <Path>System Explorer\Glyphs\default fpga category.png</Path>
+      </Glyph>
+      <Item2Launch>
+        <Type>To Common Doc Dir</Type>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Main Page.vi</Path>
+      </Item2Launch>
+    </Page>
+    <Page>
+      <Name>
+        <eng>Data Server</eng>
+        <loc>Data Server</loc>
+      </Name>
+      <GUID>50607266-7804-459d-9f58-da99f817b781</GUID>
+      <Glyph>
+        <Type>To Application Data Dir</Type>
+        <Path>System Explorer\Glyphs\default fpga category.png</Path>
+      </Glyph>
+      <Item2Launch>
+        <Type>To Common Doc Dir</Type>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Data Server.vi</Path>
+      </Item2Launch>
+    </Page>
+  </Pages>
+  <CustomXML>
+    <Dummy></Dummy>
+  </CustomXML>
+</CustomDevice>
