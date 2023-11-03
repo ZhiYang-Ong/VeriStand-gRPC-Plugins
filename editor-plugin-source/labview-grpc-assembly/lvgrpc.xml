@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>lvgrpc</name>
+  </assembly>
+  <members>
+    <member name="M:LabVIEW.gRPC.VeriStandgrpc_client.CreateClient(System.String,System.String,System.UInt64@)">
+      <summary></summary>
+      <returns>Void</returns>
+    </member>
+    <member name="M:LabVIEW.gRPC.VeriStandgrpc_client.DestroyClient(System.UInt64)">
+      <summary></summary>
+      <returns>Void</returns>
+    </member>
+    <member name="M:LabVIEW.gRPC.VeriStandgrpc_client.GrpcWrite(System.UInt64,LabVIEW.gRPC.RequestData,LabVIEW.gRPC.ResponseData@,System.Int32,System.UInt64)">
+      <summary></summary>
+      <returns>Void</returns>
+    </member>
+    <member name="M:LabVIEW.gRPC.VeriStandgrpc_client.GrpcRead(System.UInt64,LabVIEW.gRPC.RequestData,LabVIEW.gRPC.ResponseData@,System.Int32,System.UInt64)">
+      <summary></summary>
+      <returns>Void</returns>
+    </member>
+  </members>
+</doc>
