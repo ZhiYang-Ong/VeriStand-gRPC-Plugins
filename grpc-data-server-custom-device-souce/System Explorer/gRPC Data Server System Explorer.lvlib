@@ -14,7 +14,9 @@
 			<Item Name="Main Page.vi" Type="VI" URL="../Main Page.vi"/>
 		</Item>
 		<Item Name="SubVIs" Type="Folder">
+			<Item Name="Clear RTDriver VIs.vi" Type="VI" URL="../Clear RTDriver VIs.vi"/>
 			<Item Name="Load Help File.vi" Type="VI" URL="../Load Help File.vi"/>
+			<Item Name="Set RTDriver VIs File Paths.vi" Type="VI" URL="../Set RTDriver VIs File Paths.vi"/>
 			<Item Name="Validate Address.vi" Type="VI" URL="../Validate Address.vi"/>
 		</Item>
 		<Item Name="Types" Type="Folder"/>

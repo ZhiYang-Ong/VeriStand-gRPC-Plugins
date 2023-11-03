@@ -9,3 +9,19 @@ Cache_Path[Path] Line0002 = "{BDB37E78-1B48-4DD8-B51B-9DFE56743A02}.txt"
 Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
 Cache_Path[Path] Line0002 = "{32214451-43E2-4D3E-92C8-CE819321FAC4}.txt"
 
+[AB_Cache_{EE166578-105C-47DA-A974-1A3EB11C1E7D}]
+Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
+Cache_Path[Path] Line0002 = "{EE166578-105C-47DA-A974-1A3EB11C1E7D}.txt"
+
+[AB_Cache_{C1104DB9-1E18-4544-987E-F3F5B699BED6}]
+Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
+Cache_Path[Path] Line0002 = "{C1104DB9-1E18-4544-987E-F3F5B699BED6}.txt"
+
+[AB_Cache_{D8F4CF45-2E7F-42F7-9262-BF0E6518C2A6}]
+Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
+Cache_Path[Path] Line0002 = "{D8F4CF45-2E7F-42F7-9262-BF0E6518C2A6}.txt"
+
+[AB_Cache_{D88849DA-4823-4E81-A521-081D262DE720}]
+Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
+Cache_Path[Path] Line0002 = "{D88849DA-4823-4E81-A521-081D262DE720}.txt"
+

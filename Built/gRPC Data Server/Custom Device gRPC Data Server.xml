@@ -13,7 +13,7 @@
     <Type>Action</Type>
     <Item2Launch>
       <Type>To Common Doc Dir</Type>
-      <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Initialization VI.vi</Path>
+      <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Initialization VI.vi</Path>
     </Item2Launch>
   </InitializationVI>
   <CustomDeviceVI>
@@ -24,7 +24,7 @@
           <Type>To Common Doc Dir</Type>
           <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Engine Windows.llb\RT Driver VI.vi</Path>
         </Source>
-        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Windows.llb\RT Driver VI.vi</RealTimeSystemDestination>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Windows.lvlibp\RT Driver VI.vi</RealTimeSystemDestination>
       </Source>
       <Source>
         <SupportedTarget>Linux_32_ARM</SupportedTarget>
@@ -32,7 +32,7 @@
           <Type>To Common Doc Dir</Type>
           <Path>Custom Devices\gRPC Data Server\Linux_32_ARM\gRPC Data Server Engine LinuxARM.llb\RT Driver VI.vi</Path>
         </Source>
-        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine LinuxARM.llb\RT Driver VI.vi</RealTimeSystemDestination>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine LinuxARM.lvlibp\RT Driver VI.vi</RealTimeSystemDestination>
       </Source>
       <Source>
         <SupportedTarget>Linux_x64</SupportedTarget>
@@ -40,7 +40,7 @@
           <Type>To Common Doc Dir</Type>
           <Path>Custom Devices\gRPC Data Server\Linux_x64\gRPC Data Server Engine Linux64.llb\RT Driver VI.vi</Path>
         </Source>
-        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Linux64.llb\RT Driver VI.vi</RealTimeSystemDestination>
+        <RealTimeSystemDestination>c:\ni-rt\VeriStand\Custom Devices\gRPC Data Server\gRPC Data Server Engine Linux64.lvlibp\RT Driver VI.vi</RealTimeSystemDestination>
       </Source>
     </SourceDistribution>
   </CustomDeviceVI>
@@ -58,7 +58,7 @@
       </Glyph>
       <Item2Launch>
         <Type>To Common Doc Dir</Type>
-        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Main Page.vi</Path>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Main Page.vi</Path>
       </Item2Launch>
     </Page>
     <Page>
@@ -73,7 +73,7 @@
       </Glyph>
       <Item2Launch>
         <Type>To Common Doc Dir</Type>
-        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.llb\Data Server.vi</Path>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Data Server.vi</Path>
       </Item2Launch>
     </Page>
   </Pages>
