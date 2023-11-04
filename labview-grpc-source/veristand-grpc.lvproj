@@ -81,7 +81,7 @@
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/Post-Build Action.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{31BC2E79-1879-42AF-95C4-12B6BDD0BB7D}</Property>
-				<Property Name="Bld_version.build" Type="Int">8</Property>
+				<Property Name="Bld_version.build" Type="Int">9</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">lvgrpc.dll</Property>
 				<Property Name="Destination[0].path" Type="Path">../editor-plugin-source/labview-grpc-assembly/lvgrpc.dll</Property>

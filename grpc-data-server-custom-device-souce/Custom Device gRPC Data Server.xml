@@ -13,7 +13,7 @@
     <Type>Action</Type>
     <Item2Launch>
       <Type>To Common Doc Dir</Type>
-      <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Initialization VI.vi</Path>
+      <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\System Explorer\Initialization VI.vi</Path>
     </Item2Launch>
   </InitializationVI>
   <CustomDeviceVI>
@@ -50,8 +50,12 @@
       </Glyph>
       <Item2Launch>
         <Type>To Common Doc Dir</Type>
-        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Main Page.vi</Path>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\System Explorer\Main Page.vi</Path>
       </Item2Launch>
+	  <ActionVIOnCompile>
+        <Type>To Common Doc Dir</Type>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\System Explorer\ActionVIOnCompile.vi</Path>
+      </ActionVIOnCompile>	
     </Page>
     <Page>
       <Name>
@@ -65,7 +69,7 @@
       </Glyph>
       <Item2Launch>
         <Type>To Common Doc Dir</Type>
-        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\Data Server.vi</Path>
+        <Path>Custom Devices\gRPC Data Server\Windows\gRPC Data Server Configuration.lvlibp\System Explorer\Data Server.vi</Path>
       </Item2Launch>
     </Page>
   </Pages>

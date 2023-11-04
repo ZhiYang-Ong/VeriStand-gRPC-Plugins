@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SourceFile Checksum="F549177CC19C67855ED7D1DBA067D3233E8D589A3497F5E34F91EC5AA0DA1EE97032F30CC0F0306CC88D3CC0611D06C43C3FCD23DF9F9ACB4BEC29BD597C6FBF" Timestamp="1DA0EBA665F76A3" xmlns="http://www.ni.com/PlatformFramework">
+	<SourceModelFeatureSet>
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Configuration Based Software Core" Name="http://www.ni.com/ConfigurationBasedSoftware.Core" OldestCompatibleVersion="6.3.0.49152" Version="6.3.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="LabVIEW Controls" Name="http://www.ni.com/Controls.LabVIEW.Design" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PanelCommon" OldestCompatibleVersion="6.1.0.0" Version="6.1.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="VeriStand Core Components" Name="http://www.ni.com/VeriStand" OldestCompatibleVersion="9.0.0.49152" Version="9.0.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="1.0.0.0" FeatureSetName="VeriStand Example Plugin" Name="https://github.com/ZhiYang-Ong/VeriStandPlugins" OldestCompatibleVersion="1.0.0.49152" Version="1.0.0.49152" />
+		<ApplicationVersionInfo Build="9.3.0.49854" Name="VeriStand" Version="9.6.0.49854" />
+	</SourceModelFeatureSet>
+	<Screen Id="2" xmlns="http://www.ni.com/VeriStand">
+		<ScreenSurface Height="[float]1600" Id="1" Left="[float]0" PanelSizeMode="Fixed" Top="[float]0" Width="[float]2000" xmlns="http://www.ni.com/ConfigurationBasedSoftware.Core">
+			<ChannelNumericText BaseName="[string]Numeric" Channel="[string]Targets/Controller/Custom Devices/gRPC Data Server/Listening Port" Height="[float]24" Id="352c37413db3484faacaeea63050e4b7" IsReadOnly="[bool]True" Label="[UIModel]ad0950cf34444e9da84ed6a684952332" Left="[float]313" Top="[float]106" UnitAnnotation="[string]" ValueFormatter="[string]LV:G5" ValueType="[Type]Double" Width="[float]70" />
+			<Label Height="[float]16" Id="ad0950cf34444e9da84ed6a684952332" LabelOwner="[UIModel]352c37413db3484faacaeea63050e4b7" Left="[float]313" Text="[string]Listening Port" Top="[float]86" Width="[float]72" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="81b126662200450f86070bf77c4e73c8" Label="[UIModel]96e1f6a552bc4d018930c0e101002292" Left="[float]151" Top="[float]223" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStandPlugins" />
+			<Label Height="[float]16" Id="96e1f6a552bc4d018930c0e101002292" LabelOwner="[UIModel]81b126662200450f86070bf77c4e73c8" Left="[float]151" Text="[string]StringControl" Top="[float]203" Width="[float]70" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="c9e361bb04054588966206e143b498c3" Label="[UIModel]524397a158e248da93925671721d04b6" Left="[float]151" Top="[float]304" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStandPlugins" />
+			<Label Height="[float]16" Id="524397a158e248da93925671721d04b6" LabelOwner="[UIModel]c9e361bb04054588966206e143b498c3" Left="[float]151" Text="[string]StringControl_2" Top="[float]284" Width="[float]82" xmlns="http://www.ni.com/PanelCommon" />
+			<StringIndicator Height="[float]50" Id="2f5914218afc4c9eb0a2de2597c849da" Label="[UIModel]6b2410dea7dd45a782922ea44e6456df" Left="[float]313" Top="[float]223" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStandPlugins" />
+			<Label Height="[float]16" Id="6b2410dea7dd45a782922ea44e6456df" LabelOwner="[UIModel]2f5914218afc4c9eb0a2de2597c849da" Left="[float]313" Text="[string]StringIndicator" Top="[float]203" Width="[float]78" xmlns="http://www.ni.com/PanelCommon" />
+			<StringIndicator Height="[float]50" Id="813804a259114fa4ab748481ce3dde41" Label="[UIModel]14908f4523f248869455f78e91559996" Left="[float]313" Top="[float]304" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStandPlugins" />
+			<Label Height="[float]16" Id="14908f4523f248869455f78e91559996" LabelOwner="[UIModel]813804a259114fa4ab748481ce3dde41" Left="[float]313" Text="[string]StringIndicator_2" Top="[float]284" Width="[float]89" xmlns="http://www.ni.com/PanelCommon" />
+			<StringIndicator Height="[float]50" Id="2b156ac01184a2581b94f05bbdd304f" Label="[UIModel]4eb9d8b78aeb4733aaf8647ae9e9dad6" Left="[float]313" Top="[float]392" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStandPlugins" />
+			<Label Height="[float]16" Id="4eb9d8b78aeb4733aaf8647ae9e9dad6" LabelOwner="[UIModel]2b156ac01184a2581b94f05bbdd304f" Left="[float]313" Text="[string]StringIndicator_3" Top="[float]372" Width="[float]89" xmlns="http://www.ni.com/PanelCommon" />
+		</ScreenSurface>
+	</Screen>
+</SourceFile>

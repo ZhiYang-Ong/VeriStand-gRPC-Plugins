@@ -1,5 +1,5 @@
 [ProjectWindow_Data]
-ProjectExplorer.ClassicPosition[String] = "143,1330,558,1753"
+ProjectExplorer.ClassicPosition[String] = "86,960,501,1383"
 
 [AB_Cache_{BDB37E78-1B48-4DD8-B51B-9DFE56743A02}]
 Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
@@ -24,4 +24,3 @@ Cache_Path[Path] Line0002 = "{D8F4CF45-2E7F-42F7-9262-BF0E6518C2A6}.txt"
 [AB_Cache_{D88849DA-4823-4E81-A521-081D262DE720}]
 Cache_Path[Path] Line0001 = "/C/Users/BuildMachine/AppData/Local/Temp/AB_Cache_"
 Cache_Path[Path] Line0002 = "{D88849DA-4823-4E81-A521-081D262DE720}.txt"
-
