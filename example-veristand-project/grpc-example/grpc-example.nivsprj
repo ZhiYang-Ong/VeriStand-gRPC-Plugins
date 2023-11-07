@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SourceFile Checksum="D7159EBDD69C9117E3074BB177D12639857BC8A67FA227307CB3901693D1A4D6D4A0D05D7CB17BA260948E0439A6819A77D5143FAA5E59E6B0F614E1732B0605" xmlns="http://www.ni.com/PlatformFramework">
+	<SourceModelFeatureSet>
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="VeriStand Core Components" Name="http://www.ni.com/VeriStand" OldestCompatibleVersion="9.0.0.49152" Version="9.0.0.49152" />
+		<ApplicationVersionInfo Build="9.3.0.49854" Name="VeriStand" Version="9.6.0.49854" />
+	</SourceModelFeatureSet>
+	<Project xmlns="http://www.ni.com/PlatformFramework">
+		<EnvoyManagerRootEnvoy Id="1" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
+		<EmbeddedDefinitionReference Id="2" ModelDefinitionType="NationalInstruments.ProjectExplorer.Modeling.ProjectDataManager" Name="ProjectExplorer">
+			<ProjectExplorer />
+		</EmbeddedDefinitionReference>
+		<NameScopingEnvoy Id="4" ModelDefinitionType="DefaultTarget" Name="DefaultTarget">
+			<DefaultTarget />
+			<EmbeddedDefinitionReference Id="5" ModelDefinitionType="GatewayDefinition" Name="Gateway" Reparentable="False">
+				<GatewayDefinition xmlns="http://www.ni.com/VeriStand" />
+			</EmbeddedDefinitionReference>
+			<FileReference Bindings=".nivscf" Id="ee20287bf9b94d3b9fb22dc169f73d9b" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="grpc-example.nivscf" StoragePath="grpc-example.nivscf" />
+			<SourceFileReference Id="60e2c7c4241040e6b4d0d2d4652959ec" ModelDefinitionType="{http://www.ni.com/VeriStand}Screen" Name="grpc-example.nivsscr" StoragePath="grpc-example.nivsscr" />
+			<FileReference Bindings=".nivsscreen" Id="341243734eb34bf282eade366a3ab2eb" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="grpc-example.nivsscreen" StoragePath="grpc-example.nivsscreen" />
+			<FileReference Bindings=".nivsproj" Id="b2caab4a6261440b9ac93efba5ab4d18" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="grpc-example.nivsproj" StoragePath="grpc-example.nivsproj" />
+			<SourceFileReference Bindings="EnvoyManager" Id="947b426b0f09410e96632dae27de3e84" ModelDefinitionType="{http://www.ni.com/VeriStand}SystemDefinition" Name="grpc-example.nivssdf" StoragePath="grpc-example.nivssdf" />
+			<EmbeddedDefinitionReference Id="2edfd3390b384bba8e3cd702669c61db" ModelDefinitionType="SdfFilePath" Name="SdfPath" Reparentable="False">
+				<SdfFilePath SdfPath="grpc-example.nivssdf" xmlns="http://www.ni.com/VeriStand" />
+			</EmbeddedDefinitionReference>
+		</NameScopingEnvoy>
+	</Project>
+	<ProjectInformation xmlns="http://www.ni.com/PlatformFramework" />
+</SourceFile>

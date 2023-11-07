@@ -10,6 +10,7 @@
 		<Property Name="IOScan.Priority" Type="UInt">9</Property>
 		<Property Name="IOScan.ReportModeConflict" Type="Bool">true</Property>
 		<Property Name="IOScan.StartEngineOnDeploy" Type="Bool">false</Property>
+		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.control.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.tcp.enabled" Type="Bool">false</Property>
@@ -31,6 +32,7 @@
 			<Item Name="LLB Pre-Build CHM Build.vi" Type="VI" URL="../Utility/LLB Pre-Build CHM Build.vi"/>
 		</Item>
 		<Item Name="Custom Device gRPC Data Server.xml" Type="Document" URL="../Custom Device gRPC Data Server.xml"/>
+		<Item Name="gRPC_top.png" Type="Document" URL="../gRPC_top.png"/>
 		<Item Name="gRPC Data Server Engine.lvlib" Type="Library" URL="../Engine/gRPC Data Server Engine.lvlib"/>
 		<Item Name="gRPC Data Server Shared.lvlib" Type="Library" URL="../Shared/gRPC Data Server Shared.lvlib"/>
 		<Item Name="gRPC Data Server System Explorer.lvlib" Type="Library" URL="../System Explorer/gRPC Data Server System Explorer.lvlib"/>
@@ -137,7 +139,7 @@
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/Copy .LLB to NI VeriStand dir.vi</Property>
 				<Property Name="Bld_preActionVIID" Type="Ref">/My Computer/Utility/LLB Pre-Build CHM Build.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{C1104DB9-1E18-4544-987E-F3F5B699BED6}</Property>
-				<Property Name="Bld_version.build" Type="Int">12</Property>
+				<Property Name="Bld_version.build" Type="Int">16</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">gRPC Data Server Configuration.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../Built/gRPC Data Server/Windows/gRPC Data Server Configuration.lvlibp</Property>
@@ -145,9 +147,11 @@
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
 				<Property Name="Destination[1].path" Type="Path">../Built/gRPC Data Server</Property>
-				<Property Name="DestinationCount" Type="Int">2</Property>
+				<Property Name="Destination[2].destName" Type="Str">Data</Property>
+				<Property Name="Destination[2].path" Type="Path">../Built/gRPC Data Server/Windows</Property>
+				<Property Name="DestinationCount" Type="Int">3</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{8C01348A-C028-4D10-AB88-B2704921795E}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{DDBDCEA8-4DBA-4EDF-8DFA-2C2C07D11C3B}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/gRPC Data Server System Explorer.lvlib</Property>
@@ -160,7 +164,10 @@
 				<Property Name="Source[2].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[2].itemID" Type="Ref">/My Computer/Custom Device gRPC Data Server.xml</Property>
 				<Property Name="Source[2].sourceInclusion" Type="Str">Include</Property>
-				<Property Name="SourceCount" Type="Int">3</Property>
+				<Property Name="Source[3].destinationIndex" Type="Int">2</Property>
+				<Property Name="Source[3].itemID" Type="Ref">/My Computer/gRPC_top.png</Property>
+				<Property Name="Source[3].sourceInclusion" Type="Str">Include</Property>
+				<Property Name="SourceCount" Type="Int">4</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Configuration Release PPL</Property>
 				<Property Name="TgtF_internalName" Type="Str">Configuration Release PPL</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright ?2023 </Property>
@@ -180,7 +187,7 @@
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/Copy .LLB to NI VeriStand dir.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{D88849DA-4823-4E81-A521-081D262DE720}</Property>
-				<Property Name="Bld_version.build" Type="Int">12</Property>
+				<Property Name="Bld_version.build" Type="Int">14</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">gRPC Data Server Engine Windows.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../Built/gRPC Data Server/Windows/gRPC Data Server Engine Windows.lvlibp</Property>
