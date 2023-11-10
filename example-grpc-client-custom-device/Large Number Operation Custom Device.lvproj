@@ -140,7 +140,7 @@
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/PPL CD XML Updater.vi</Property>
 				<Property Name="Bld_preActionVIID" Type="Ref">/My Computer/Utility/PPL Pre-Build CHM Build.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{C7B72E93-8B50-487C-8B64-9F99DA0DED33}</Property>
-				<Property Name="Bld_version.build" Type="Int">5</Property>
+				<Property Name="Bld_version.build" Type="Int">11</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">Large Number Operation Configuration.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../Built/Large Number Operation/Windows/Large Number Operation Configuration.lvlibp</Property>
@@ -185,7 +185,7 @@
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/PPL CD XML Updater.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{374428A7-476B-4605-B75D-2BC1D56CF4D1}</Property>
-				<Property Name="Bld_version.build" Type="Int">21</Property>
+				<Property Name="Bld_version.build" Type="Int">36</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">Large Number Operation Engine Windows.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../Built/Large Number Operation/Windows/Large Number Operation Engine Windows.lvlibp</Property>
@@ -195,7 +195,7 @@
 				<Property Name="Destination[1].path" Type="Path">../Built/Large Number Operation/Windows</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{31E7D456-84CA-4D14-BBEA-14F44C4FE1FB}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{43AA21F8-6DD0-43CF-89B3-D8C782A5DD71}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Large Number Operation Engine.lvlib</Property>
@@ -205,7 +205,14 @@
 				<Property Name="Source[1].preventRename" Type="Bool">true</Property>
 				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
 				<Property Name="Source[1].type" Type="Str">Library</Property>
-				<Property Name="SourceCount" Type="Int">2</Property>
+				<Property Name="Source[2].itemID" Type="Ref">/My Computer/Large Number Operation Engine.lvlib/Engine/Run/Large Number Operation.Async.vi</Property>
+				<Property Name="Source[2].properties[0].type" Type="Str">Remove front panel</Property>
+				<Property Name="Source[2].properties[0].value" Type="Bool">false</Property>
+				<Property Name="Source[2].properties[1].type" Type="Str">Remove block diagram</Property>
+				<Property Name="Source[2].properties[1].value" Type="Bool">false</Property>
+				<Property Name="Source[2].propertiesCount" Type="Int">2</Property>
+				<Property Name="Source[2].type" Type="Str">VI</Property>
+				<Property Name="SourceCount" Type="Int">3</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Engine Release PPL</Property>
 				<Property Name="TgtF_internalName" Type="Str">Engine Release PPL</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">Copyright ? 2021 </Property>
@@ -335,13 +342,13 @@
 				<Property Name="Bld_excludeDependentPPLs" Type="Bool">true</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../Built/Large Number Operation</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../Built/Large Number Operation/Linux_x64</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/PPL CD XML Updater.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{1E683DAF-0A6A-403D-8435-128124805F88}</Property>
 				<Property Name="Bld_targetDestDir" Type="Path">/Linux_x64</Property>
-				<Property Name="Bld_version.build" Type="Int">9</Property>
+				<Property Name="Bld_version.build" Type="Int">10</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">Large Number Operation Engine Linux64.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">/Linux_x64/Large Number Operation Engine Linux64.lvlibp</Property>
@@ -352,7 +359,7 @@
 				<Property Name="Destination[1].path" Type="Path">/Linux_x64</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{F5A93CC1-F009-4BD4-A05F-8FE2DE8CA99B}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{2A2EF467-E1B1-4FE6-9C96-EC675D1A4002}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/RT PXI Target/Large Number Operation Engine.lvlib</Property>

@@ -64,8 +64,8 @@
       </Name>
       <GUID>50607266-7804-459d-9f58-da99f817b781</GUID>
       <Glyph>
-        <Type>To Application Data Dir</Type>
-        <Path>System Explorer\Glyphs\default fpga category.png</Path>
+        <Type>To Common Doc Dir</Type>
+        <Path>Custom Devices\gRPC Data Server\Windows\server.png</Path>
       </Glyph>
       <Item2Launch>
         <Type>To Common Doc Dir</Type>
