@@ -30,7 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup>
-    <VeriStandDir>c:\Program Files\National Instruments\VeriStand 2023</VeriStandDir>
+    <VeriStandDir>c:\Program Files\National Instruments\VeriStand 2021</VeriStandDir>
     <DefineConstants>MUTATE2020;MUTATE2020R4;MUTATE2021</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -52,9 +52,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="lvgrpc, Version=1.0.0.9, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BuiltAssembly\lvgrpc.dll</HintPath>
+    <Reference Include="lvgrpc">
+      <HintPath>..\labview-grpc-assembly\lvgrpc.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Controls">
       <SpecificVersion>False</SpecificVersion>
@@ -198,7 +197,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "C:\Users\Public\Documents\National Instruments\NI VeriStand 2020\Custom UI Manager Controls\"
-xcopy /s /y "$(SolutionDir)\BuiltAssembly" "C:\Users\Public\Documents\National Instruments\NI VeriStand 2020\Custom UI Manager Controls\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "C:\Users\Public\Documents\National Instruments\NI VeriStand 2021\Custom UI Manager Controls\"
+xcopy /s /y "$(SolutionDir)\labview-grpc-assembly" "C:\Users\Public\Documents\National Instruments\NI VeriStand 2021\Custom UI Manager Controls\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

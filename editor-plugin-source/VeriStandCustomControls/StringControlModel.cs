@@ -227,11 +227,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(
                     StringControlModelErrorString,
                     this);
-//#if MUTATE2021
-//                this.SafeReportError(StringControlModelErrorString, null, MessageDescriptor.Empty, ex);
-//#else
+#if MUTATE2021
+                this.SafeReportError(StringControlModelErrorString, null, MessageDescriptor.Empty, ex);
+#else
                 this.ReportError(StringControlModelErrorString, null, MessageDescriptor.Empty, ex);
-//#endif
+#endif
             });
         }
 
