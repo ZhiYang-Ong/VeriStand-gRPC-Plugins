@@ -228,6 +228,15 @@
 				</Properties>
 				<Errors />
 			</Section>
+			<Section Name="liblabview_grpc_server.so" TypeGUID="369b9797-43bd-4cdf-8352-81032feed666" Identifier="d825fd29-2a50-45e7-ac33-51ebf35616fe">
+				<Description />
+				<Properties>
+					<Property Name="Path">
+						<String>C:\Users\Public\Documents\National Instruments\NI VeriStand 2021\Custom UI Manager Controls\Libraries\LinuxRT\liblabview_grpc_server.so</String>
+					</Property>
+				</Properties>
+				<Errors />
+			</Section>
 		</Section>
 	</Root>
 </Document>

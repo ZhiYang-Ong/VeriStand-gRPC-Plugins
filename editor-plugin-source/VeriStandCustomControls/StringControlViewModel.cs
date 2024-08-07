@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading.Tasks;
+using System.Reflection;
 using NationalInstruments.Composition;
 using NationalInstruments.Controls;
 using NationalInstruments.Controls.Shell;
@@ -13,6 +14,8 @@ using NationalInstruments.Design;
 using NationalInstruments.DataTypes;
 using NationalInstruments.Shell;
 using LabVIEW.gRPC;
+using System.Threading;
+using System.IO;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -23,6 +26,12 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
     /// </summary>
     public class StringControlViewModel : VisualViewModel
     {
+        //// Load assembly from subdirectory.
+        //static string directory = Thread.GetDomain().BaseDirectory;
+        //static string dllPath = Path.Combine(directory, "labview-grpc-assembly", "lvgrpc.dll");
+        //Assembly lvgrpc = Assembly.LoadFrom(dllPath);
+        //Assembly lvgrpc = Assembly.Load("lvgrpc, Version=1.0.0.8, Culture=neutral, PublicKeyToken=null");
+
         private readonly StringControlModel _model;
         /// <summary>
         /// Constructs a new instance of the StringControlViewModel class

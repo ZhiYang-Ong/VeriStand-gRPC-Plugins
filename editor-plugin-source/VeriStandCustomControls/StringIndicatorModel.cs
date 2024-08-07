@@ -54,7 +54,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// <summary>
         /// Tool tip to display in the palette
         /// </summary>
-        public string ToolTip => "A string control.";
+        public string ToolTip => "A string indicator.";
 
         /// <summary>
         /// Unique id for the control. The only requirement is that this doesn't overlap with existing controls or other custom controls.
