@@ -15,6 +15,7 @@ using NationalInstruments.Shell;
 using LabVIEW.gRPC;
 using System.Threading;
 using System.IO;
+using System.Windows;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -57,7 +58,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             set { _status = value; }
         }
 
-
         private double _wait = 5;
         private string _addr = "localhost:50051";
         private string _cert = "";
@@ -68,27 +68,30 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         ResponseData responseData = new ResponseData();
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
-        /// Handle the event from model
+
+        #region Events
+        /// <summary>
+        /// Called by the view to notify model when a property changes.
+        /// </summary>
+        /// <param name="sender">sending object - not used</param>
+        /// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
+        private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
+        {
+            ((StringControlModel)Model).SetModelValue(eventArgs.ChannelName, (string)eventArgs.ChannelValue);
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Process the notification from model.
+        /// </summary>
         private void OnModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Connect")
+            switch (e.PropertyName)
             {
-                if (_model.Connect == true)
-                {
-                    try
+                case "Connect":
+                    if (_model.Connect == true)
                     {
-                        VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
-                    }
-                    catch (Exception e1)
-                    {
-                        _status = getErrReason(e1);
-                        NotifyPropertyChanged(nameof(Status));
-                    }
-
-                    // Try to create the session again if first time failed
-                    if (gRPCId == 0)
-                    {
-                        Task.Delay(500);
                         try
                         {
                             VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
@@ -98,27 +101,44 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                             _status = getErrReason(e1);
                             NotifyPropertyChanged(nameof(Status));
                         }
-                    }
 
-                    dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
-                    dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000/_wait);
-                    dispatcherTimer.Start();
-                }
-                else
-                {
-                    try
-                    {
-                        VeriStandgrpc_client.DestroyClient(gRPCId);
-                        gRPCId = 0;
-                    }
-                    catch (Exception e2)
-                    {
-                        _status = getErrReason(e2);
-                    }
+                        // Try to create the session again if first time failed
+                        if (gRPCId == 0)
+                        {
+                            Task.Delay(500);
+                            try
+                            {
+                                VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
+                            }
+                            catch (Exception e1)
+                            {
+                                _status = getErrReason(e1);
+                                NotifyPropertyChanged(nameof(Status));
+                            }
+                        }
 
-                    dispatcherTimer.Stop();
-                    dispatcherTimer.Tick -= DataTimer_Tick;
-                }
+                        dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
+                        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _wait);
+                        dispatcherTimer.Start();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            VeriStandgrpc_client.DestroyClient(gRPCId);
+                            gRPCId = 0;
+                        }
+                        catch (Exception e2)
+                        {
+                            _status = getErrReason(e2);
+                        }
+
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Tick -= DataTimer_Tick;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
      
@@ -168,6 +188,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public override object CreateView()
         {
             var view = new StringIndicator(this);
+            WeakEventManager<StringControlModel, CustomChannelValueChangedEventArgs>.AddHandler(view, "ValueChanged", SetModelValue);
             return view;
         }
 

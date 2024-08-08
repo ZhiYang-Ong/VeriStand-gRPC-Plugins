@@ -30,8 +30,14 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// Forward the change event to View
         private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Status")
-                OnPropertyChanged(nameof(Status));
+            switch (e.PropertyName)
+            {
+                case "Status":
+                    OnPropertyChanged(nameof(Status));
+                    break;
+                default:
+                    break;
+            }     
         }
 
         /// <summary>

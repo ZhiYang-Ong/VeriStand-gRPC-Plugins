@@ -100,7 +100,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public const string StringChannelName = "StringChannel";
 
         /// <summary>
-        /// Specifies the PropertySymbol for the first registered channel.  Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
+        /// Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
         /// </summary>
         public static readonly PropertySymbol StringChannelSymbol =
             ExposePropertySymbol<StringControlModel>(StringChannelName, string.Empty);
@@ -180,21 +180,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         #endregion
 
         #region VeriStandGateway
-        public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
-        /// Raises OnPropertychangedEvent when property changes
-        /// </summary>
-        /// <param name="name">String representing the property name</param>
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        /// <summary>
-        ///   Called when VeriStand connects to the gateway. This control should register for the channel value change
+        /// Called when VeriStand connects to the gateway. This control should register for the channel value change
         /// events it is interested in when this happens.
         /// </summary>
         /// <returns>Task which can be awaited</returns>
@@ -283,6 +270,32 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public Task OnShutdownAsync()
         {
             return Task.CompletedTask;
+        }
+        #endregion
+
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Notify view model when a property of model changes.
+        /// </summary>
+        /// <param name="name">String representing the property name</param>
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        /// <summary>
+        /// Called by the view when a value change occurs.  The view fires this for both duty cycle and frequency value changes and the event args let us
+        /// tell which one was fired
+        /// </summary>
+        /// <param name="channelName">The name of the channel to set the value on.</param>
+        /// <param name="channelValue">The new channel value.</param>
+        public void SetChannelValue(string channelName, double channelValue)
+        {
+
         }
         #endregion
     }

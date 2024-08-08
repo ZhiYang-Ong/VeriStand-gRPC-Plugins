@@ -54,6 +54,7 @@
   <ItemGroup>
     <Reference Include="lvgrpc">
       <HintPath>..\labview-grpc-assembly\lvgrpc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NationalInstruments.Controls">
       <SpecificVersion>False</SpecificVersion>
