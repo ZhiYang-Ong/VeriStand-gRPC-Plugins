@@ -190,7 +190,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             get { return _connect; }
             set
-            { _connect = value; OnPropertyChanged(nameof(Connect)); }
+            { _connect = value; OnModelChanged(nameof(Connect)); }
         }
 
         public async Task OnConnectedAsync()
@@ -202,7 +202,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(StringControlModelErrorString, this);
                 });
             _connect = true;
-            OnPropertyChanged(nameof(Connect));
+            OnModelChanged(nameof(Connect));
             await Task.Delay(100);
         }
 
@@ -247,7 +247,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                         StringControlModelErrorString,
                         this));
             _connect = false;
-            OnPropertyChanged(nameof(Connect));
+            OnModelChanged(nameof(Connect));
             await Task.Delay(100);            
         }
 
@@ -279,7 +279,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// Notify view model when a property of model changes.
         /// </summary>
         /// <param name="name">String representing the property name</param>
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        protected void OnModelChanged([CallerMemberName] string name = null)
         {
             if (PropertyChanged != null)
             {
@@ -288,15 +288,22 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
 
         /// <summary>
-        /// Called by the view when a value change occurs.  The view fires this for both duty cycle and frequency value changes and the event args let us
-        /// tell which one was fired
+        /// Called by the model when a view model change occurs. 
         /// </summary>
         /// <param name="channelName">The name of the channel to set the value on.</param>
         /// <param name="channelValue">The new channel value.</param>
-        public void SetChannelValue(string channelName, double channelValue)
+        private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
         {
-
+            switch (eventArgs.ChannelName)
+            {
+                //case "stringValue":
+                //    _data = eventArgs.ChannelValue as string; break;
+                default:
+                    break;
+            }
         }
+
+
         #endregion
     }
 }

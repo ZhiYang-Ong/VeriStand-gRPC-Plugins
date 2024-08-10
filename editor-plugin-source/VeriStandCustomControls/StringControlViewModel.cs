@@ -41,6 +41,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             : base(model)
         {
             _model = model;
+            // Subscribe to the change event of Model
             _model.PropertyChanged += OnModelChanged;
         }
 
@@ -61,7 +62,13 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private double _wait = 5;
         private string _addr = "localhost:50051";
         private string _cert = "";
+
         private string _chnName = "";
+        public string ChnName
+        {
+            get { return _chnName; }
+            set { _chnName = value; OnViewModelChanged(ChnName, nameof(ChnName)); }
+        }
 
         ulong gRPCId = 0;
         RequestData requestData = new RequestData();
@@ -71,24 +78,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// Handle the event from model
         private void OnModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Connect")
+            switch (e.PropertyName)
             {
-                if (_model.Connect == true)
-                {
-                    try
+                case "Connect":
+                    if (_model.Connect == true)
                     {
-                        VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
-                    }
-                    catch (Exception e1)
-                    {
-                        _status = getErrReason(e1);
-                        NotifyPropertyChanged(nameof(Status));
-                    }
-
-                    // Try to create the session again if first time failed
-                    if (gRPCId == 0)
-                    {
-                        Task.Delay(500);
                         try
                         {
                             VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
@@ -98,28 +92,45 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                             _status = getErrReason(e1);
                             NotifyPropertyChanged(nameof(Status));
                         }
-                    }
 
-                    dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
-                    dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _wait);
-                    dispatcherTimer.Start();
-                }
-                else
-                {
-                    try
-                    {
-                        VeriStandgrpc_client.DestroyClient(gRPCId);
-                        gRPCId = 0;
-                    }
-                    catch (Exception e2)
-                    {
-                        _status = getErrReason(e2);
-                        NotifyPropertyChanged(nameof(Status));
-                    }
+                        // Try to create the session again if first time failed
+                        if (gRPCId == 0)
+                        {
+                            Task.Delay(500);
+                            try
+                            {
+                                VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
+                            }
+                            catch (Exception e1)
+                            {
+                                _status = getErrReason(e1);
+                                NotifyPropertyChanged(nameof(Status));
+                            }
+                        }
 
-                    dispatcherTimer.Stop();
-                    dispatcherTimer.Tick -= DataTimer_Tick;
-                }
+                        dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
+                        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _wait);
+                        dispatcherTimer.Start();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            VeriStandgrpc_client.DestroyClient(gRPCId);
+                            gRPCId = 0;
+                        }
+                        catch (Exception e2)
+                        {
+                            _status = getErrReason(e2);
+                            NotifyPropertyChanged(nameof(Status));
+                        }
+
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Tick -= DataTimer_Tick;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         
@@ -149,7 +160,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             string errTxt;
             errTxt = error.Message.Substring(error.Message.IndexOf("<ERR>") + 6);
-            // Get the possible reason text
+            // Get the text of possible reason 
             return errTxt;
         }
 
@@ -162,20 +173,43 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public override object CreateView()
         {
             var view = new StringControl(this);
-            WeakEventManager<StringControl, CustomChannelValueChangedEventArgs>.AddHandler(view, "ValueChanged", SetChannelValue);
+            WeakEventManager<StringControl, CustomChannelValueChangedEventArgs>.AddHandler(view, "ViewValueChanged", SetViewModelValue);
             return view;
         }
 
         /// <summary>
-        /// Called by the view when a value change occurs.  The view fires this for both duty cycle and frequency value changes and the event args let us
-        /// tell which one was fired
+        /// Called by the view when a value change occurs.  
         /// </summary>
         /// <param name="sender">sending object - not used</param>
         /// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        private void SetChannelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
+        private void SetViewModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
         {
-            if (eventArgs.ChannelName == "stringValue")
-                _data = eventArgs.ChannelValue as string;
+            switch (eventArgs.ChannelName)
+            {
+                case "stringValue":
+                    _data = eventArgs.ChannelValue as string; break;
+                default:
+                    break;
+            }           
+        }
+
+        /// <summary>
+        /// Event that is fired when the value on the control changes
+        /// </summary>
+        public event EventHandler<CustomChannelValueChangedEventArgs> ValueChanged;
+
+        /// <summary>
+        /// Raises the ChannelValueChanged event. Invoked when the channel value changes.
+        /// </summary>
+        /// <param name="channelValue">New channel value</param>
+        /// <param name="channelName">Name of the channel that changed</param>
+        protected virtual void OnViewModelChanged(string channelValue, string channelName)
+        {
+            var channelValueChangedSubscribers = ValueChanged;
+            if (channelValueChangedSubscribers != null)
+            {
+                channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));
+            }
         }
 
         #region ConfigurationPane
@@ -261,12 +295,17 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
             else if (textParameter != null)
             {
-                if (parameter.LabelTitle == "Address")
-                    textParameter.Text = viewModel._addr;
-                else if (parameter.LabelTitle == "Certificate Path")
-                    textParameter.Text = viewModel._cert;
-                else if (parameter.LabelTitle == "Channel Name")
-                    textParameter.Text = viewModel._chnName;
+                switch (parameter.LabelTitle)
+                {
+                    case "Address":
+                        textParameter.Text = viewModel._addr; break;
+                    case "Certificate Path":
+                        textParameter.Text = viewModel._cert; break;
+                    case "Channel Name":
+                        textParameter.Text = viewModel._chnName; break;
+                    default:
+                        break;
+                }
             }
             else if (numericParameter != null)
             {

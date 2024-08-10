@@ -27,17 +27,31 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _viewModel.PropertyChanged += OnViewModelChanged;
         }
 
+        /// <summary>
         /// Forward the change event to View
+        /// </summary>
         private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case "Status":
-                    OnPropertyChanged(nameof(Status));
-                    break;
+                    UpdateView(nameof(Status)); break;
                 default:
                     break;
             }     
+        }
+
+        private string _value;
+        public string stringValue
+        {
+            get { return _value; }
+            set { _value = value; OnViewChanged(stringValue, nameof(stringValue));}
+        }
+
+        public string Status
+        {
+            get { return _viewModel.Status; }
+            set { _viewModel.Status = value; UpdateView(nameof(Status));}
         }
 
         /// <summary>
@@ -45,7 +59,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// </summary>
         /// <param name="name">String representing the property name</param>
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string name = null)
+        public void UpdateView([CallerMemberName] string name = null)
         {
             if (PropertyChanged != null)
             {
@@ -53,40 +67,19 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        private string _value;
-        public string stringValue
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                OnValueChanged(stringValue, nameof(stringValue));
-            }
-        }
-
-        public string Status
-        {
-            get { return _viewModel.Status; }
-            set
-            {
-                _viewModel.Status = value;
-                OnPropertyChanged(nameof(Status));
-            }
-        }
-
         /// <summary>
         /// Event that is fired when the value on the control changes
         /// </summary>
-        public event EventHandler<CustomChannelValueChangedEventArgs> ValueChanged;
+        public event EventHandler<CustomChannelValueChangedEventArgs> ViewValueChanged;
 
         /// <summary>
         /// Raises the ChannelValueChanged event. Invoked when the channel value changes.
         /// </summary>
         /// <param name="channelValue">New channel value</param>
         /// <param name="channelName">Name of the channel that changed</param>
-        protected virtual void OnValueChanged(string channelValue, string channelName)
+        protected virtual void OnViewChanged(string channelValue, string channelName)
         {
-            var channelValueChangedSubscribers = ValueChanged;
+            var channelValueChangedSubscribers = ViewValueChanged;
             if (channelValueChangedSubscribers != null)
             {
                 channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));

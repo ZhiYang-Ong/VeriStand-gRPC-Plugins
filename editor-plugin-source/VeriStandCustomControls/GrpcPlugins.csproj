@@ -148,6 +148,7 @@
     <Compile Include="ExamplePreferencePage.xaml.cs">
       <DependentUpon>ExamplePreferencePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="PluginNamespaceSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
