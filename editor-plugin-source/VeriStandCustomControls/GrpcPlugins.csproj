@@ -128,13 +128,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StringControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="MergeString.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="StringIndicator.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +144,11 @@
     <Compile Include="ExamplePreferencePage.xaml.cs">
       <DependentUpon>ExamplePreferencePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MergeString.xaml.cs">
+      <DependentUpon>MergeString.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MergeStringModel.cs" />
+    <Compile Include="MergeStringViewModel.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="PluginNamespaceSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -164,16 +165,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\LocalizedStrings.Designer.cs" />
-    <Compile Include="StringControl.xaml.cs">
-      <DependentUpon>StringControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StringControlModel.cs" />
-    <Compile Include="StringControlViewModel.cs" />
-    <Compile Include="StringIndicator.xaml.cs">
-      <DependentUpon>StringIndicator.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StringIndicatorModel.cs" />
-    <Compile Include="StringIndicatorViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
