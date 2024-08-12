@@ -83,25 +83,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     break;
             }
         }
-
-        ///// <summary>
-        ///// Event that is fired when the value on the control changes
-        ///// </summary>
-        //public event EventHandler<CustomChannelValueChangedEventArgs> ViewChanged;
-
-        ///// <summary>
-        ///// Routes the view channel event to view model, using WeakEventManager
-        ///// </summary>
-        ///// <param name="channelValue">New channel value</param>
-        ///// <param name="channelName">Name of the channel that changed</param>
-        //protected virtual void OnViewChanged(double channelValue, string channelName)
-        //{
-        //    var channelValueChangedSubscribers = ViewChanged;
-        //    if (channelValueChangedSubscribers != null)
-        //    {
-        //        channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));
-        //    }
-        //}
         #endregion
     }
 }

@@ -73,7 +73,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
     #endregion
 
     /// <summary>
-    /// Model class which defines the business logic for the String Control.
+    /// Model class which defines the business logic of the user control
     /// </summary>
     public class MergeStringModel : VisualModel, INotifyPropertyChanged,
 #if MUTATE2020R4
@@ -95,7 +95,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private const string MergeStringModelErrorString = "MergeStringModelErrors";
 
         /// <summary>
-        /// Specifies the name of the String channel
+        /// Specifies the name of the user control
         /// </summary>
         public const string StringChannelName = "StringChannel";
 
@@ -154,7 +154,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
 
         /// <summary>
-        /// Factory method for creating a new MergeStringModel
+        /// Factory method for creating a new Model
         /// </summary>
         /// <param name="info">Information required to create the model, such as the parser.</param>
         /// <returns>A constructed and initialized MergeStringModel instance.</returns>
@@ -274,40 +274,9 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         #endregion
 
         #region UserDefinedLogic
-        private string _fisrtname;
-        public string FirstName
-        {
-            get { return _fisrtname; }
-            set
-            {
-                _fisrtname = value;
-                //OnViewPropertyChanged("FirstName");
-                //OnViewPropertyChanged("FullName");
-            }
-        }
-
-        private string _lastname;
-        public string LastName
-        {
-            get { return _lastname; }
-            set
-            {
-                _lastname = value;
-                //OnViewPropertyChanged("LastName");
-                //OnViewPropertyChanged("FullName");
-            }
-        }
-
-        private string _fullname;
-        public string FullName
-        {
-            get { return _fisrtname + " " + _lastname; }
-            set
-            {
-                _fullname = value;
-                //OnViewPropertyChanged("FullName");
-            }
-        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get; private set; }
         #endregion
 
         #region Events
@@ -324,22 +293,24 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        ///// <summary>
-        ///// Called by the model when a view model change occurs. 
-        ///// </summary>
-        ///// <param name="channelName">The name of the channel to set the value on.</param>
-        ///// <param name="channelValue">The new channel value.</param>
-        //private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
-        //{
-        //    switch (eventArgs.ChannelName)
-        //    {
-        //        //case "stringValue":
-        //        //    _data = eventArgs.ChannelValue as string; break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
+        /// <summary>
+        /// Called by the view model to change the value in model.
+        /// </summary>
+        /// <param name="channelName">The name of the channel to set the value on.</param>
+        /// <param name="channelValue">The new channel value.</param>
+        public void UpdateModelValue(string channelName, string channelValue)
+        {
+            switch (channelName)
+            {
+                case "FirstName":
+                case "LastName":
+                    FullName = FirstName + " " + LastName;
+                    OnPropertyChanged(nameof(FullName));
+                    break;
+                default:
+                    break;
+            }
+        }
 
         #endregion
     }

@@ -37,9 +37,10 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             _model = model;
             //// Subscribe to the change event of Model
-            //_model.PropertyChanged += OnModelChanged;
+            _model.PropertyChanged += OnModelPropertyChanged;
         }
 
+        private MergeString _view;
         /// Creates the view associated with this view model by initializing a new instance of our custom control class MergeString
         /// This is an opportunity to provide callbacks to the view and to hook up event handlers.  In this case we add a value changed event handler so we can
         /// react when the view changes value.
@@ -48,6 +49,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public override object CreateView()
         {
             var view = new MergeString(this);
+            _view = view;
             //WeakEventManager<MergeString, CustomChannelValueChangedEventArgs>.AddHandler(view, "ViewValueChanged", SetViewModelValue);
 
             // Subscribe to the change event of view
@@ -55,31 +57,43 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             return view;
         }
 
+        /// <summary>
+        ///  De-register event on dispose.
+        /// </summary>
+        public override void DisposeView()
+        {
+            _view.PropertyChanged -= OnViewPropertyChanged;
+            _model.PropertyChanged -= OnModelPropertyChanged;
+        }
+
         //DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
-        private string _firstname;
-        public string FirstName
-        {
-            get { return _firstname; }
-            set { _firstname = value; }
-        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get; set; }
 
-        private string _lastname;
-        public string LastName
-        {
-            get { return _lastname; }
-            set { _lastname = value; }
-        }
+        //private string _firstname;
+        //public string FirstName
+        //{
+        //    get { return _firstname; }
+        //    set { _firstname = value; }
+        //}
 
-        private string _fullname;
-        public string FullName  // Read-only
-        {
-            get { return _fullname; }
-        }
+        //private string _lastname;
+        //public string LastName
+        //{
+        //    get { return _lastname; }
+        //    set { _lastname = value; }
+        //}
 
+        //private string _fullname;
+        //public string FullName  // Read-only
+        //{
+        //    get { return _fullname; }
+        //}
 
         ///// Handle the event from model
-        //private void OnModelChanged(object sender, PropertyChangedEventArgs e)
+        //private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         //{
         //    switch (e.PropertyName)
         //    {
@@ -98,62 +112,46 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             switch (e.PropertyName)
             {
-                case "FirstName":
-                case "LastName":
-                    _fullname = _firstname + " " + _lastname;
-                    NotifyPropertyChanged(nameof(FullName));
+                //case "FirstName":
+                //case "LastName":
+                //    //_fullname = _firstname + " " + _lastname;
+                //    FullName = FirstName + " " + LastName;
+                //    NotifyPropertyChanged(nameof(FullName));
+                //    break;
+                case "FirstName":   // Forward the view value change to model
+                    _model.UpdateModelValue(nameof(FirstName), FirstName); break;
+                case "LastName":   // Forward the view value value to model
+                    _model.UpdateModelValue(nameof(LastName), LastName); break;
+                default:
                     break;
+            }
+        }
+
+        ///// <summary>
+        ///// Called by the view model to change the value in model.
+        ///// </summary>
+        ///// <param name="sender">sending object - not used</param>
+        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
+        ////private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
+        //private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
+        //{
+        //    ((MergeStringModel)Model).UpdateModelValue(ChannelName, ChannelValue);
+        //}
+
+        /// <summary>
+        /// Process the notification from model.
+        /// </summary>
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case "FullName":    // Forward the model value change to view
+                    NotifyPropertyChanged(nameof(FullName)); break;
                 default:
                     break;
             }
         }
         #endregion
-
-        //private void DataTimer_Tick(object sender, EventArgs e)
-        //{
-        //    NotifyPropertyChanged(nameof(Status));
-        //}
-
-        /// <summary>
-
-
-        ///// <summary>
-        ///// Called by the view when a value change occurs.  
-        ///// </summary>
-        ///// <param name="sender">sending object - not used</param>
-        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        //private void SetViewModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
-        //{
-        //    switch (eventArgs.ChannelName)
-        //    {
-        //        case "stringValue":
-        //            _data = eventArgs.ChannelValue as string; break;
-        //        default:
-        //            break;
-        //    }           
-        //}
-
-        ///// <summary>
-        ///// Event that is fired when the value on the control changes
-        ///// </summary>
-        //public event EventHandler<CustomChannelValueChangedEventArgs> ValueChanged;
-
-        ///// <summary>
-        ///// Raises the ChannelValueChanged event. Invoked when the channel value changes.
-        ///// </summary>
-        ///// <param name="channelValue">New channel value</param>
-        ///// <param name="channelName">Name of the channel that changed</param>
-        //protected virtual void OnViewModelChanged(string channelValue, string channelName)
-        //{
-        //    var channelValueChangedSubscribers = ValueChanged;
-        //    if (channelValueChangedSubscribers != null)
-        //    {
-        //        channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));
-        //    }
-        //}
-
-
-
 
         #region ConfigurationPane
         private string _chnName = "";
