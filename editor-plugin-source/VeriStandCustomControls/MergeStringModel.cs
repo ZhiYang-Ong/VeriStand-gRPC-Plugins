@@ -277,6 +277,12 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; private set; }
+
+        private void updateFullName()
+        {
+            FullName = FirstName + " " + LastName;
+            OnPropertyChanged(nameof(FullName));
+        }
         #endregion
 
         #region Events
@@ -293,12 +299,12 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        /// <summary>
-        /// Called by the view model to change the value in model.
+          /// <summary>
+        /// Called by the view model to notify model of value change.
         /// </summary>
         /// <param name="channelName">The name of the channel to set the value on.</param>
         /// <param name="channelValue">The new channel value.</param>
-        public void UpdateModelValue(string channelName, string channelValue)
+        public void NotifyModelChanged(string channelName)
         {
             switch (channelName)
             {
@@ -311,7 +317,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     break;
             }
         }
-
         #endregion
     }
 }

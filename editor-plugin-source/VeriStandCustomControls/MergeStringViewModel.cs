@@ -70,37 +70,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
-
-        //private string _firstname;
-        //public string FirstName
-        //{
-        //    get { return _firstname; }
-        //    set { _firstname = value; }
-        //}
-
-        //private string _lastname;
-        //public string LastName
-        //{
-        //    get { return _lastname; }
-        //    set { _lastname = value; }
-        //}
-
-        //private string _fullname;
-        //public string FullName  // Read-only
-        //{
-        //    get { return _fullname; }
-        //}
-
-        ///// Handle the event from model
-        //private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    switch (e.PropertyName)
-        //    {
-        //          default:
-        //            break;
-        //    }
-        //}
+        public string FullName { get; private set; }
+        
 
         #region EventHandler
         ///// <summary>
@@ -112,31 +83,16 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             switch (e.PropertyName)
             {
-                //case "FirstName":
-                //case "LastName":
-                //    //_fullname = _firstname + " " + _lastname;
-                //    FullName = FirstName + " " + LastName;
-                //    NotifyPropertyChanged(nameof(FullName));
-                //    break;
                 case "FirstName":   // Forward the view value change to model
-                    _model.UpdateModelValue(nameof(FirstName), FirstName); break;
+                    _model.FirstName = FirstName;
+                    _model.NotifyModelChanged(nameof(FirstName)); break;
                 case "LastName":   // Forward the view value value to model
-                    _model.UpdateModelValue(nameof(LastName), LastName); break;
+                    _model.LastName = LastName;
+                    _model.NotifyModelChanged(nameof(LastName)); break;
                 default:
                     break;
             }
         }
-
-        ///// <summary>
-        ///// Called by the view model to change the value in model.
-        ///// </summary>
-        ///// <param name="sender">sending object - not used</param>
-        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        ////private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
-        //private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
-        //{
-        //    ((MergeStringModel)Model).UpdateModelValue(ChannelName, ChannelValue);
-        //}
 
         /// <summary>
         /// Process the notification from model.
@@ -146,6 +102,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             switch(e.PropertyName)
             {
                 case "FullName":    // Forward the model value change to view
+                    FullName = _model.FullName;
                     NotifyPropertyChanged(nameof(FullName)); break;
                 default:
                     break;
