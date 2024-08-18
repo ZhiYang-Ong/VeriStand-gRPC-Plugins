@@ -7,16 +7,19 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using NationalInstruments.Composition;
-using NationalInstruments.Controls;
 using NationalInstruments.Controls.Shell;
 using NationalInstruments.Core;
 using NationalInstruments.Design;
-using NationalInstruments.DataTypes;
+using NationalInstruments.Hmi.Core.Controls.Models;
+using NationalInstruments.Hmi.Core.Screen;
 using NationalInstruments.Shell;
+using NationalInstruments.SourceModel;
+using NationalInstruments.VeriStand.ServiceModel;
+using NationalInstruments.VeriStand.Shell;
+using NationalInstruments.VeriStand.Tools;
 using LabVIEW.gRPC;
 using System.Threading;
-using System.IO;
-using System.Runtime.CompilerServices;
+using NationalInstruments.DataTypes;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -27,6 +30,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
     /// </summary>
     public class MergeStringViewModel : VisualViewModel
     {
+        private static IViewModel selectedViewModel;
         private readonly MergeStringModel _model;
         /// <summary>
         /// Constructs a new instance of the MergeStringViewModel class
@@ -35,9 +39,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public MergeStringViewModel(MergeStringModel model)
             : base(model)
         {
+            selectedViewModel = this;
+
             _model = model;
             //// Subscribe to the change event of Model
-            _model.PropertyChanged += OnModelPropertyChanged;
+            _model.PropertyChanged += OnModelPropertyChanged;    
         }
 
         private MergeString _view;
@@ -85,10 +91,10 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             {
                 case "FirstName":   // Forward the view value change to model
                     _model.FirstName = FirstName;
-                    _model.NotifyModelChanged(nameof(FirstName)); break;
+                    _model.NotifyModelChanged("FirstName"); break;
                 case "LastName":   // Forward the view value value to model
                     _model.LastName = LastName;
-                    _model.NotifyModelChanged(nameof(LastName)); break;
+                    _model.NotifyModelChanged("LastName"); break;
                 default:
                     break;
             }
@@ -111,16 +117,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         #endregion
 
         #region ConfigurationPane
-        private string _chnName = "";
-        public string ChnName
-        {
-            get { return _chnName; }
-            set
-            {
-                _chnName = value;
-                //OnViewModelChanged(ChnName, nameof(ChnName));
-            }
-        }
+        private const string channelName_MiddleName = "Middle Name";
 
         /// <summary>
         ///  Creates configuration pane content for this control. See comments on
@@ -159,8 +156,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// </summary>
         public static readonly ICommandEx chnConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
         {
-            LabelTitle = "Channel Name",
-            UniqueId = "NI.ConfigCommands:Server",
+            LabelTitle = channelName_MiddleName,
+            UniqueId = "NI.ConfigCommands:MiddleName",
             UIType = UITypeForCommand.TextBox,
         };
 
@@ -179,6 +176,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private static bool HandleCanExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
         {
             var viewModel = selection.OfType<ElementViewModel>().First() as MergeStringViewModel;
+            var _model = viewModel._model;
             var booleanParameter = parameter as ICheckableCommandParameter;
             var numericParameter = parameter as IValueCommandParameter;
             var textParameter = parameter as ITextCommandParameter;
@@ -191,8 +189,9 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             {
                 switch (parameter.LabelTitle)
                 {
-                    case "Channel Name":
-                        textParameter.Text = viewModel._chnName; break;
+                    case channelName_MiddleName:
+                        textParameter.Text = _model.MiddleName;
+                        break;
                     default:
                         break;
                 }
@@ -215,6 +214,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private static void HandleExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
         {
             var viewModel = selection.OfType<ElementViewModel>().First() as MergeStringViewModel;
+            var _model = viewModel._model;
             var booleanParameter = parameter as ICheckableCommandParameter;
             var numericParameter = parameter as IValueCommandParameter;
             var textParameter = parameter as ITextCommandParameter;
@@ -227,8 +227,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             {
                 switch (parameter.LabelTitle)
                 {
-                    case "Channel Name":
-                        viewModel._chnName = textParameter.Text; break;
+                    case channelName_MiddleName:
+                        UpdateSerializedProperty(channelName_MiddleName, textParameter.Text); break;
                     default:
                         break;
                 }
@@ -238,6 +238,31 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             //    viewModel._wait = Convert.ToDouble(numericParameter.Value);
             //}
         }
+                
+
+        private static void UpdateSerializedProperty(string channelName, string channelValue)
+        {
+            var uiModel = (UIModel)selectedViewModel.Model;
+            // we are setting values on the model so start a new transaction. set the purpose of the transaction to user so that it can be undone
+            using (var transaction = uiModel.TransactionManager.BeginTransaction("Set channel", TransactionPurpose.User))
+            {
+                var _uiModel = uiModel as MergeStringModel;
+                if (_uiModel != null)
+                {
+                    switch (channelName)
+                    {
+                        case channelName_MiddleName:
+                            _uiModel.MiddleName = channelValue;
+                            _uiModel.NotifyModelChanged("MiddleName");
+                            break;
+                        default:
+                            break;
+                    }
+                    transaction.Commit();
+                }
+            }
+        }
+
         #endregion
     }
 }

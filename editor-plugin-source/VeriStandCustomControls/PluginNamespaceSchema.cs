@@ -16,12 +16,12 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// <summary>
         /// This must be unique among all plugins.
         /// </summary>
-        public const string ParsableNamespaceName = "https://github.com/ZhiYang-Ong/VeriStandPlugins";
+        public const string ParsableNamespaceName = "https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins";
 
         /// <summary>
         /// The current version
         /// </summary>
-        private const string CurrentVersion = "1.0.0f0";
+        private const string CurrentVersion = "1.1.0f0";
 
         /// <summary>
         /// Default Constructor

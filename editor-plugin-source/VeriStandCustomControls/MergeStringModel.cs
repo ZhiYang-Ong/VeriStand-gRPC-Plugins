@@ -36,7 +36,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string Target =>
             "<pf:MergeScript xmlns:pf=\"http://www.ni.com/PlatformFramework\">" +
                 "<pf:MergeItem>" +
-                    "<MergeString xmlns=\"https://github.com/ZhiYang-Ong/VeriStandPlugins\" Width=\"[float]160\" Height=\"[float]160\"/>" +
+                    "<MergeString xmlns=\"https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins\" Width=\"[float]160\" Height=\"[float]160\"/>" +
                 "</pf:MergeItem>" +
             "</pf:MergeScript>";
 
@@ -95,54 +95,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private const string MergeStringModelErrorString = "MergeStringModelErrors";
 
         /// <summary>
-        /// Specifies the name of the user control
-        /// </summary>
-        public const string StringChannelName = "StringChannel";
-
-        /// <summary>
-        /// Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
-        /// </summary>
-        public static readonly PropertySymbol StringChannelSymbol =
-            ExposePropertySymbol<MergeStringModel>(StringChannelName, string.Empty);
-
-        /// <summary>
         /// Provide a xaml generation helper. This is used to help generate xaml for the properties on this control.
         /// </summary>
         public override XamlGenerationHelper XamlGenerationHelper
         {
             get { return new MergeStringXamlHelper(); }
-        }
-
-        /// <summary>
-        /// Gets the type of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
-        /// </summary>
-        /// <param name="identifier">The property to get the type of.</param>
-        /// <returns>The exact runtime type of the specified property.</returns>
-        public override Type GetPropertyType(PropertySymbol identifier)
-        {
-            switch (identifier.Name)
-            {
-                case StringChannelName:
-                    return typeof(string);
-                default:
-                    return base.GetPropertyType(identifier);
-            }
-        }
-
-        /// <summary>
-        /// Gets the default value of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
-        /// </summary>
-        /// <param name="identifier">The property to get the default value of.</param>
-        /// <returns>The default value of the specified property.</returns>
-        public override object DefaultValue(PropertySymbol identifier)
-        {
-            switch (identifier.Name)
-            {
-                case StringChannelName:
-                    return string.Empty;
-                default:
-                    return base.DefaultValue(identifier);
-            }
         }
 
         /// <summary>
@@ -176,6 +133,57 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private class MergeStringXamlHelper : XamlGenerationHelper
         {
             public override Type ControlType => typeof(MergeString);
+        }
+        #endregion
+
+        #region Serialization
+        /// <summary>
+        /// Specifies the name of the serialized channel
+        /// </summary>
+        public const string StringChannelName = "MiddleName";
+
+        /// <summary>
+        /// Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
+        /// </summary>
+        public static readonly PropertySymbol StringChannelSymbol =
+            ExposePropertySymbol<MergeStringModel>(StringChannelName, string.Empty);
+
+        public string MiddleName
+        {
+            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
+            set {SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+        }
+
+        /// <summary>
+        /// Gets the type of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
+        /// </summary>
+        /// <param name="identifier">The property to get the type of.</param>
+        /// <returns>The exact runtime type of the specified property.</returns>
+        public override Type GetPropertyType(PropertySymbol identifier)
+        {
+            switch (identifier.Name)
+            {
+                case StringChannelName:
+                    return typeof(string);
+                default:
+                    return base.GetPropertyType(identifier);
+            }
+        }
+
+        /// <summary>
+        /// Gets the default value of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
+        /// </summary>
+        /// <param name="identifier">The property to get the default value of.</param>
+        /// <returns>The default value of the specified property.</returns>
+        public override object DefaultValue(PropertySymbol identifier)
+        {
+            switch (identifier.Name)
+            {
+                case StringChannelName:
+                    return string.Empty;
+                default:
+                    return base.DefaultValue(identifier);
+            }
         }
         #endregion
 
@@ -277,12 +285,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; private set; }
-
-        private void updateFullName()
-        {
-            FullName = FirstName + " " + LastName;
-            OnPropertyChanged(nameof(FullName));
-        }
         #endregion
 
         #region Events
@@ -310,7 +312,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             {
                 case "FirstName":
                 case "LastName":
-                    FullName = FirstName + " " + LastName;
+                case "MiddleName":
+                    FullName = FirstName + " " + MiddleName + " " + LastName;
                     OnPropertyChanged(nameof(FullName));
                     break;
                 default:
