@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using NationalInstruments.Controls;
-
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -56,7 +55,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        #region EventHandlers
+        #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// Event that is fired when the view value changes, using INotifyPropertyChanged

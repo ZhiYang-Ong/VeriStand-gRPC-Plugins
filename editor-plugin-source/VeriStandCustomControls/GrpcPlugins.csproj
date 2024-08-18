@@ -132,6 +132,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StringControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,7 +153,6 @@
     </Compile>
     <Compile Include="MergeStringModel.cs" />
     <Compile Include="MergeStringViewModel.cs" />
-    <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="PluginNamespaceSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -165,6 +168,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Resources\LocalizedStrings.Designer.cs" />
+    <Compile Include="StringControl.xaml.cs">
+      <DependentUpon>StringControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StringControlModel.cs" />
+    <Compile Include="StringControlViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

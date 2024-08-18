@@ -193,14 +193,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// events it is interested in when this happens.
         /// </summary>
         /// <returns>Task which can be awaited</returns>
-        private bool _connect = false;
-        public bool Connect
-        {
-            get { return _connect; }
-            set
-            { _connect = value; OnPropertyChanged(nameof(Connect)); }
-        }
-
         public async Task OnConnectedAsync()
         {
             // use Host.BeginInvoke to clear error messages when connecting to the gateway.  The error message collection must be interacted with by the UI thread
@@ -209,8 +201,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(MergeStringModelErrorString, this);
                 });
-            _connect = true;
-            OnPropertyChanged(nameof(Connect));
+            //_connect = true;
+            //OnPropertyChanged(nameof(Connect));
             await Task.Delay(100);
         }
 
@@ -254,8 +246,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(
                         MergeStringModelErrorString,
                         this));
-            _connect = false;
-            OnPropertyChanged(nameof(Connect));
+            //_connect = false;
+            //OnPropertyChanged(nameof(Connect));
             await Task.Delay(100);            
         }
 

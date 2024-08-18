@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Windows;
+using System.Windows.Threading;
 using NationalInstruments.CBSCommon;
 using NationalInstruments.CommonModel;
 using NationalInstruments.Core;
@@ -18,6 +20,7 @@ using NationalInstruments.VeriStand.SourceModel;
 using NationalInstruments.VeriStand.SourceModel.Screen;
 using NationalInstruments.VeriStand.SystemStorage;
 using static NationalInstruments.Core.ExceptionHelper;
+using LabVIEW.gRPC;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -36,7 +39,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string Target =>
             "<pf:MergeScript xmlns:pf=\"http://www.ni.com/PlatformFramework\">" +
                 "<pf:MergeItem>" +
-                    "<StringControl xmlns=\"https://github.com/ZhiYang-Ong/VeriStandPlugins\" Width=\"[float]105\" Height=\"[float]50\"/>" +
+                    "<StringControl xmlns=\"https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins\" Width=\"[float]105\" Height=\"[float]50\"/>" +
                 "</pf:MergeItem>" +
             "</pf:MergeScript>";
 
@@ -82,7 +85,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         ISubscribeProviderStatusUpdates
 #endif
     {
-        #region BasicLogic
+        #region BusinessLogic
         /// <summary>
         /// The name to use for serialization of this model.  This name must match the name used in the Target xml in the ICustomVeriStandControl interface
         /// </summary>
@@ -95,54 +98,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private const string StringControlModelErrorString = "StringControlModelErrors";
 
         /// <summary>
-        /// Specifies the name of the String channel
-        /// </summary>
-        public const string StringChannelName = "StringChannel";
-
-        /// <summary>
-        /// Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
-        /// </summary>
-        public static readonly PropertySymbol StringChannelSymbol =
-            ExposePropertySymbol<StringControlModel>(StringChannelName, string.Empty);
-
-        /// <summary>
         /// Provide a xaml generation helper. This is used to help generate xaml for the properties on this control.
         /// </summary>
         public override XamlGenerationHelper XamlGenerationHelper
         {
             get { return new StringControlXamlHelper(); }
-        }
-
-        /// <summary>
-        /// Gets the type of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
-        /// </summary>
-        /// <param name="identifier">The property to get the type of.</param>
-        /// <returns>The exact runtime type of the specified property.</returns>
-        public override Type GetPropertyType(PropertySymbol identifier)
-        {
-            switch (identifier.Name)
-            {
-                case StringChannelName:
-                    return typeof(string);
-                default:
-                    return base.GetPropertyType(identifier);
-            }
-        }
-
-        /// <summary>
-        /// Gets the default value of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
-        /// </summary>
-        /// <param name="identifier">The property to get the default value of.</param>
-        /// <returns>The default value of the specified property.</returns>
-        public override object DefaultValue(PropertySymbol identifier)
-        {
-            switch (identifier.Name)
-            {
-                case StringChannelName:
-                    return string.Empty;
-                default:
-                    return base.DefaultValue(identifier);
-            }
         }
 
         /// <summary>
@@ -179,20 +139,97 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
         #endregion
 
+        #region Serialization
+        /// <summary>
+        /// Any custom attribute that needs to serialized so that it is saved needs to be a property symbol.
+        /// </summary>
+        public const string RatePropName = "Rate";
+        public static readonly PropertySymbol RateSymbol =
+            ExposePropertySymbol<StringControlModel>(RatePropName, (double)0);
+        public double Rate
+        {
+            get { return ImmediateValueOrDefault<double>(RateSymbol); }
+            set { SetOrReplaceImmediateValue(RateSymbol, value); }
+        }
+
+        public const string AddressPropName = "IpAddress";
+        public static readonly PropertySymbol AddressSymbol =
+            ExposePropertySymbol<StringControlModel>(AddressPropName, string.Empty);
+        public string Addr
+        {
+            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
+            set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+        }
+
+        public const string CertPropName = "CertPath";
+        public static readonly PropertySymbol CertSymbol =
+            ExposePropertySymbol<StringControlModel>(CertPropName, string.Empty);
+        public string Cert
+        {
+            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
+            set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+        }
+
+        public const string StringChannelName = "StringChannel";
+        public static readonly PropertySymbol StringChannelSymbol =
+            ExposePropertySymbol<StringControlModel>(StringChannelName, string.Empty);
+        public string Channel
+        {
+            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
+            set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+        }
+
+        /// <summary>
+        /// Gets the type of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
+        /// </summary>
+        /// <param name="identifier">The property to get the type of.</param>
+        /// <returns>The exact runtime type of the specified property.</returns>
+        public override Type GetPropertyType(PropertySymbol identifier)
+        {
+            switch (identifier.Name)
+            {
+                case RatePropName:
+                    return typeof(double);
+                case AddressPropName:
+                    return typeof(string);
+                case CertPropName:
+                    return typeof(string);
+                case StringChannelName:
+                    return typeof(string);
+                default:
+                    return base.GetPropertyType(identifier);
+            }
+        }
+
+        /// <summary>
+        /// Gets the default value of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
+        /// </summary>
+        /// <param name="identifier">The property to get the default value of.</param>
+        /// <returns>The default value of the specified property.</returns>
+        public override object DefaultValue(PropertySymbol identifier)
+        {
+            switch (identifier.Name)
+            {
+                case RatePropName:
+                    return (double)5;
+                case AddressPropName:
+                    return (string)"localhost:50051";
+                case CertPropName:
+                    return string.Empty;
+                case StringChannelName:
+                    return string.Empty;
+                default:
+                    return base.DefaultValue(identifier);
+            }
+        }
+        #endregion
+
         #region VeriStandGateway
         /// <summary>
         /// Called when VeriStand connects to the gateway. This control should register for the channel value change
         /// events it is interested in when this happens.
         /// </summary>
         /// <returns>Task which can be awaited</returns>
-        private bool _connect = false;
-        public bool Connect
-        {
-            get { return _connect; }
-            set
-            { _connect = value; OnModelChanged(nameof(Connect)); }
-        }
-
         public async Task OnConnectedAsync()
         {
             // use Host.BeginInvoke to clear error messages when connecting to the gateway.  The error message collection must be interacted with by the UI thread
@@ -201,8 +238,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(StringControlModelErrorString, this);
                 });
-            _connect = true;
-            OnModelChanged(nameof(Connect));
+            StartGrpc();
             await Task.Delay(100);
         }
 
@@ -246,8 +282,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(
                         StringControlModelErrorString,
                         this));
-            _connect = false;
-            OnModelChanged(nameof(Connect));
+            StopGrpc();
             await Task.Delay(100);            
         }
 
@@ -273,13 +308,103 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
         #endregion
 
+        #region UserDefinedLogic
+        public string Data { get; set; }
+        public string Status { get; private set; }
+
+        private bool _connect = false;
+        ulong gRPCId = 0;
+        RequestData requestData = new RequestData();
+        ResponseData responseData = new ResponseData();
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
+        private void StartGrpc()
+        {
+            try
+            {
+                VeriStandgrpc_client.CreateClient(Addr, Cert, out gRPCId);
+            }
+            catch (Exception e1)
+            {
+                Status = getErrReason(e1);
+                OnPropertyChanged(nameof(Status));
+            }
+
+            // Try to create the session again if first time failed
+            if (gRPCId == 0)
+            {
+                Task.Delay(500);
+                try
+                {
+                    VeriStandgrpc_client.CreateClient(Addr, Cert, out gRPCId);
+                }
+                catch (Exception e1)
+                {
+                    Status = getErrReason(e1);
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+
+            dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
+            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / Rate);
+            dispatcherTimer.Start();
+        }
+
+        private void StopGrpc()
+        {
+            try
+            {
+                VeriStandgrpc_client.DestroyClient(gRPCId);
+                gRPCId = 0;
+            }
+            catch (Exception e2)
+            {
+                Status = getErrReason(e2);
+                OnPropertyChanged(nameof(Status));
+            }
+
+            dispatcherTimer.Stop();
+            dispatcherTimer.Tick -= DataTimer_Tick;
+        }
+
+        private void DataTimer_Tick(object sender, EventArgs e)
+        {
+            if (gRPCId != 0)
+            {
+                requestData.channel = Channel;
+                requestData.data = Data;
+                try
+                {
+                    VeriStandgrpc_client.GrpcWrite(gRPCId, requestData, out responseData, 100, 0);
+                    if (responseData.status == "OK")
+                        Status = "";
+                    else
+                        Status = responseData.status;
+                }
+                catch (Exception e3)
+                {
+                    Status = getErrReason(e3);
+                }
+            }
+            OnPropertyChanged(nameof(Status));
+        }
+
+        private string getErrReason(Exception error)
+        {
+            string errTxt;
+            errTxt = error.Message.Substring(error.Message.IndexOf("<ERR>") + 6);
+            // Get the text of possible reason 
+            return errTxt;
+        }
+        #endregion
+
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// Notify view model when a property of model changes.
         /// </summary>
         /// <param name="name">String representing the property name</param>
-        protected void OnModelChanged([CallerMemberName] string name = null)
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             if (PropertyChanged != null)
             {
@@ -288,22 +413,18 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
 
         /// <summary>
-        /// Called by the model when a view model change occurs. 
+        /// Called by the view model to notify model of value change.
         /// </summary>
         /// <param name="channelName">The name of the channel to set the value on.</param>
         /// <param name="channelValue">The new channel value.</param>
-        private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
+        public void NotifyModelChanged(string channelName)
         {
-            switch (eventArgs.ChannelName)
+            switch (channelName)
             {
-                //case "stringValue":
-                //    _data = eventArgs.ChannelValue as string; break;
                 default:
                     break;
             }
         }
-
-
         #endregion
     }
 }

@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using NationalInstruments.Controls;
-
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -27,39 +26,25 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _viewModel.PropertyChanged += OnViewModelChanged;
         }
 
-        /// <summary>
-        /// Forward the change event to View
-        /// </summary>
-        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
+        public string stringInput
         {
-            switch (e.PropertyName)
-            {
-                case "Status":
-                    UpdateView(nameof(Status)); break;
-                default:
-                    break;
-            }     
-        }
-
-        private string _value;
-        public string stringValue
-        {
-            get { return _value; }
-            set { _value = value; OnViewChanged(stringValue, nameof(stringValue));}
+            get { return _viewModel.Data; }
+            set { _viewModel.Data = value; OnPropertyChanged(nameof(stringInput));}
         }
 
         public string Status
         {
             get { return _viewModel.Status; }
-            set { _viewModel.Status = value; UpdateView(nameof(Status));}
+            set { _viewModel.Status = value; OnPropertyChanged(nameof(Status));}
         }
 
+        #region Events 
+        public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
-        /// Event that is fired to change value on control
+        /// Event that is fired when the view value changes, using INotifyPropertyChanged
         /// </summary>
         /// <param name="name">String representing the property name</param>
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void UpdateView([CallerMemberName] string name = null)
+        public void OnPropertyChanged([CallerMemberName] string name = null)
         {
             if (PropertyChanged != null)
             {
@@ -67,23 +52,20 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        /// <summary>
-        /// Event that is fired when the value on the control changes
-        /// </summary>
-        public event EventHandler<CustomChannelValueChangedEventArgs> ViewValueChanged;
-
-        /// <summary>
-        /// Raises the ChannelValueChanged event. Invoked when the channel value changes.
-        /// </summary>
-        /// <param name="channelValue">New channel value</param>
-        /// <param name="channelName">Name of the channel that changed</param>
-        protected virtual void OnViewChanged(string channelValue, string channelName)
+        ///// <summary>
+        ///// Event that is fired when the value on the view model changes
+        ///// </summary>
+        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            var channelValueChangedSubscribers = ViewValueChanged;
-            if (channelValueChangedSubscribers != null)
+            switch (e.PropertyName)
             {
-                channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));
+                case "Status":
+                    OnPropertyChanged("Status"); break;
+                default:
+                    break;
             }
         }
+
+        #endregion
     }
 }

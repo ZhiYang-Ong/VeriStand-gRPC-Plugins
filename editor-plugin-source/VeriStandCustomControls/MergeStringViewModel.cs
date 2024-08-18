@@ -42,7 +42,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             selectedViewModel = this;
 
             _model = model;
-            //// Subscribe to the change event of Model
+            // Subscribe to the change event of Model
             _model.PropertyChanged += OnModelPropertyChanged;    
         }
 
@@ -79,7 +79,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string FullName { get; private set; }
         
 
-        #region EventHandler
+        #region Events
         ///// <summary>
         ///// Called by the view when a value change occurs.
         ///// </summary>
@@ -239,7 +239,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             //}
         }
                 
-
         private static void UpdateSerializedProperty(string channelName, string channelValue)
         {
             var uiModel = (UIModel)selectedViewModel.Model;
@@ -262,7 +261,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 }
             }
         }
-
         #endregion
     }
 }
