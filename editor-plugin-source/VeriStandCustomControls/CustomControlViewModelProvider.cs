@@ -21,7 +21,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             AddSupportedModel<MergeStringModel>(e => new MergeStringViewModel(e));
             AddSupportedModel<StringControlModel>(e => new StringControlViewModel(e));
-            //AddSupportedModel<StringIndicatorModel>(e => new StringIndicatorViewModel(e));
+            AddSupportedModel<StringIndicatorModel>(e => new StringIndicatorViewModel(e));
         }
     }
 }

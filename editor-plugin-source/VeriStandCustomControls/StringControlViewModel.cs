@@ -14,9 +14,6 @@ using NationalInstruments.Design;
 using NationalInstruments.DataTypes;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
-using LabVIEW.gRPC;
-using System.Threading;
-using System.IO;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {

@@ -157,8 +157,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             ExposePropertySymbol<StringControlModel>(AddressPropName, string.Empty);
         public string Addr
         {
-            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
-            set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+            get { return ImmediateValueOrDefault<string>(AddressSymbol); }
+            set { SetOrReplaceImmediateValue(AddressSymbol, value); }
         }
 
         public const string CertPropName = "CertPath";
@@ -166,8 +166,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             ExposePropertySymbol<StringControlModel>(CertPropName, string.Empty);
         public string Cert
         {
-            get { return ImmediateValueOrDefault<string>(StringChannelSymbol); }
-            set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
+            get { return ImmediateValueOrDefault<string>(CertSymbol); }
+            set { SetOrReplaceImmediateValue(CertSymbol, value); }
         }
 
         public const string StringChannelName = "StringChannel";
@@ -213,7 +213,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 case RatePropName:
                     return (double)5;
                 case AddressPropName:
-                    return (string)"localhost:50051";
+                    return "localhost:50051";
                 case CertPropName:
                     return string.Empty;
                 case StringChannelName:
@@ -312,7 +312,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string Data { get; set; }
         public string Status { get; private set; }
 
-        private bool _connect = false;
         ulong gRPCId = 0;
         RequestData requestData = new RequestData();
         ResponseData responseData = new ResponseData();
@@ -377,7 +376,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     VeriStandgrpc_client.GrpcWrite(gRPCId, requestData, out responseData, 100, 0);
                     if (responseData.status == "OK")
-                        Status = "";
+                        Status = string.Empty;
                     else
                         Status = responseData.status;
                 }

@@ -12,10 +12,7 @@ using NationalInstruments.Core;
 using NationalInstruments.Design;
 using NationalInstruments.DataTypes;
 using NationalInstruments.Shell;
-using LabVIEW.gRPC;
-using System.Threading;
-using System.IO;
-using System.Windows;
+using NationalInstruments.SourceModel;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -32,6 +29,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         //Assembly lvgrpc = Assembly.LoadFrom(dllPath);
         //Assembly lvgrpc = Assembly.Load("lvgrpc, Version=1.0.0.8, Culture=neutral, PublicKeyToken=null");
 
+        private static IViewModel selectedViewModel;
         private readonly StringIndicatorModel _model;
         /// <summary>
         /// Constructs a new instance of the StringIndicatorViewModel class
@@ -40,145 +38,14 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public StringIndicatorViewModel(StringIndicatorModel model)
             : base(model)
         {
+            selectedViewModel = this;
+
             _model = model;
-            _model.PropertyChanged += OnModelChanged;
+            // Subscribe to the change event of Model
+            _model.PropertyChanged += OnModelPropertyChanged;
         }
 
-        private string _data = "";
-        public string Data
-        {
-            get { return _data; }
-            set { _data = value; }
-        }
-
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
-
-        private double _wait = 5;
-        private string _addr = "localhost:50051";
-        private string _cert = "";
-        private string _chnName = "";
-
-        ulong gRPCId = 0;
-        RequestData requestData = new RequestData();
-        ResponseData responseData = new ResponseData();
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-
-
-        #region Events
-        /// <summary>
-        /// Called by the view to notify model when a property changes.
-        /// </summary>
-        /// <param name="sender">sending object - not used</param>
-        /// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        private void SetModelValue(object sender, CustomChannelValueChangedEventArgs eventArgs)
-        {
-            ((StringControlModel)Model).SetModelValue(eventArgs.ChannelName, (string)eventArgs.ChannelValue);
-        }
-        #endregion
-
-
-        /// <summary>
-        /// Process the notification from model.
-        /// </summary>
-        private void OnModelChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "Connect":
-                    if (_model.Connect == true)
-                    {
-                        try
-                        {
-                            VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
-                        }
-                        catch (Exception e1)
-                        {
-                            _status = getErrReason(e1);
-                            NotifyPropertyChanged(nameof(Status));
-                        }
-
-                        // Try to create the session again if first time failed
-                        if (gRPCId == 0)
-                        {
-                            Task.Delay(500);
-                            try
-                            {
-                                VeriStandgrpc_client.CreateClient(_addr, _cert, out gRPCId);
-                            }
-                            catch (Exception e1)
-                            {
-                                _status = getErrReason(e1);
-                                NotifyPropertyChanged(nameof(Status));
-                            }
-                        }
-
-                        dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
-                        dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _wait);
-                        dispatcherTimer.Start();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            VeriStandgrpc_client.DestroyClient(gRPCId);
-                            gRPCId = 0;
-                        }
-                        catch (Exception e2)
-                        {
-                            _status = getErrReason(e2);
-                        }
-
-                        dispatcherTimer.Stop();
-                        dispatcherTimer.Tick -= DataTimer_Tick;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-     
-        private void DataTimer_Tick(object sender, EventArgs e)
-        {
-            if (gRPCId != 0)
-            {
-                requestData.channel = _chnName;
-                try
-                {
-                    VeriStandgrpc_client.GrpcRead(gRPCId, requestData, out responseData, 100, 0);
-                    if (responseData.status == "OK")
-                    {
-                        _data = responseData.data;
-                        _status = "";
-                    }
-                    else
-                    {
-                        _data = "";
-                        _status = responseData.status;
-                    }
-                }
-                catch (Exception e3)
-                {
-                    _data = "";
-                    _status = getErrReason(e3);
-                }
-            }
-            NotifyPropertyChanged(nameof(Data));
-            NotifyPropertyChanged(nameof(Status));
-        }
-
-        private string getErrReason(Exception error)
-        {
-            string errTxt;
-            errTxt = error.Message.Substring(error.Message.IndexOf("<ERR>") + 6);
-            // Get the possible reason text
-            return errTxt;
-        }
-
+        private StringIndicator _view;
         /// <summary>
         /// Creates the view associated with this view model by initializing a new instance of our custom control class StringIndicator
         /// This is an opportunity to provide callbacks to the view and to hook up event handlers.  In this case we add a value changed event handler so we can
@@ -188,11 +55,65 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public override object CreateView()
         {
             var view = new StringIndicator(this);
-            WeakEventManager<StringControlModel, CustomChannelValueChangedEventArgs>.AddHandler(view, "ValueChanged", SetModelValue);
+            _view = view;
+
+            // Subscribe to the change event of view
+            view.PropertyChanged += OnViewPropertyChanged;
             return view;
         }
 
+        /// <summary>
+        ///  De-register event on dispose.
+        /// </summary>
+        public override void DisposeView()
+        {
+            _view.PropertyChanged -= OnViewPropertyChanged;
+            _model.PropertyChanged -= OnModelPropertyChanged;
+        }
+
+        public string Data { get; set; }
+        public string Status { get; set; }
+
+        #region Events
+        ///// <summary>
+        ///// Called by the view when a value change occurs.
+        ///// </summary>
+        ///// <param name="sender">sending object - not used</param>
+        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
+        private void OnViewPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the notification from model.
+        /// </summary>
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Data":    // Forward the model value change to view
+                    Data = _model.Data;
+                    NotifyPropertyChanged(nameof(Data)); break;
+                case "Status":    // Forward the model value change to view
+                    Status = _model.Status;
+                    NotifyPropertyChanged(nameof(Status)); break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
         #region ConfigurationPane
+        public const string RatePropName = "Rate (Hz)";
+        public const string AddressPropName = "Address";
+        public const string CertPropName = "Certificate Path";
+        public const string StringChannelName = "Channel Name";
+
         /// <summary>
         ///  Creates configuration pane content for this control. See comments on
         ///  <see cref="IProvideCommandContent"/> for more information about correct usage of this function.
@@ -219,9 +140,9 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
 
         /// A numeric command
-        public readonly ICommandEx waitConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
+        public static readonly ICommandEx waitConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
         {
-            LabelTitle = "Rate (Hz)",
+            LabelTitle = RatePropName,
             UniqueId = "NI.ConfigCommands:Wait",
         };
 
@@ -230,24 +151,23 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// UIType can be used for some standard types, for all others, see examples where a VisualFactory is included.
         /// when adding the command to the ICommandPresentationContext.
         /// </summary>
-
-        public readonly ICommandEx addrConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
+        public static readonly ICommandEx addrConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
         {
-            LabelTitle = "Address",
+            LabelTitle = AddressPropName,
             UniqueId = "NI.ConfigCommands:Addr",
             UIType = UITypeForCommand.TextBox,
         };
 
-        public readonly ICommandEx certConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
+        public static readonly ICommandEx certConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
         {
-            LabelTitle = "Certificate Path",
+            LabelTitle = CertPropName,
             UniqueId = "NI.ConfigCommands:CertPath",
         };
 
-        public readonly ICommandEx chnConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
+        public static readonly ICommandEx chnConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
         {
-            LabelTitle = "Channel Name",
-            UniqueId = "NI.ConfigCommands:Server",
+            LabelTitle = StringChannelName,
+            UniqueId = "NI.ConfigCommands:ChnName",
             UIType = UITypeForCommand.TextBox,
         };
 
@@ -266,6 +186,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private static bool HandleCanExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
         {
             var viewModel = selection.OfType<ElementViewModel>().First() as StringIndicatorViewModel;
+            var _model = viewModel._model;
             var booleanParameter = parameter as ICheckableCommandParameter;
             var numericParameter = parameter as IValueCommandParameter;
             var textParameter = parameter as ITextCommandParameter;
@@ -276,16 +197,27 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
             else if (textParameter != null)
             {
-                if (parameter.LabelTitle == "Address")
-                    textParameter.Text = viewModel._addr;
-                else if (parameter.LabelTitle == "Certificate Path")
-                    textParameter.Text = viewModel._cert;
-                else if (parameter.LabelTitle == "Channel Name")
-                    textParameter.Text = viewModel._chnName;
+                switch (parameter.LabelTitle)
+                {
+                    case AddressPropName:
+                        textParameter.Text = _model.Addr; break;
+                    case CertPropName:
+                        textParameter.Text = _model.Cert; break;
+                    case StringChannelName:
+                        textParameter.Text = _model.Channel; break;
+                    default:
+                        break;
+                }
             }
             else if (numericParameter != null)
             {
-                numericParameter.Value = viewModel._wait;
+                switch (parameter.LabelTitle)
+                {
+                    case RatePropName:
+                        numericParameter.Value = _model.Rate; break;
+                    default:
+                        break;
+                }
             }
             return true; // or false to disable the command
         }
@@ -301,6 +233,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private static void HandleExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
         {
             var viewModel = selection.OfType<ElementViewModel>().First() as StringIndicatorViewModel;
+            var _model = viewModel._model;
             var booleanParameter = parameter as ICheckableCommandParameter;
             var numericParameter = parameter as IValueCommandParameter;
             var textParameter = parameter as ITextCommandParameter;
@@ -311,16 +244,59 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
             else if (textParameter != null)
             {
-                if (parameter.LabelTitle == "Address")
-                    viewModel._addr = textParameter.Text;
-                else if (parameter.LabelTitle == "Certificate Path")
-                    viewModel._cert = textParameter.Text;
-                else if (parameter.LabelTitle == "Channel Name")
-                    viewModel._chnName = textParameter.Text;
+                switch (parameter.LabelTitle)
+                {
+                    case AddressPropName:
+                        UpdateSerializedProperty(AddressPropName, textParameter.Text); break;
+                    case CertPropName:
+                        UpdateSerializedProperty(CertPropName, textParameter.Text); break;
+                    case StringChannelName:
+                        UpdateSerializedProperty(StringChannelName, textParameter.Text); break;
+                    default:
+                        break;
+                }
             }
             else if (numericParameter != null)
             {
-                viewModel._wait = Convert.ToDouble(numericParameter.Value);
+                switch (parameter.LabelTitle)
+                {
+                    case RatePropName:
+                        UpdateSerializedProperty(RatePropName, numericParameter.Value); break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private static void UpdateSerializedProperty(string channelName, object channelValue)
+        {
+            var uiModel = (UIModel)selectedViewModel.Model;
+            // we are setting values on the model so start a new transaction. set the purpose of the transaction to user so that it can be undone
+            using (var transaction = uiModel.TransactionManager.BeginTransaction("Set channel", TransactionPurpose.User))
+            {
+                var _uiModel = uiModel as StringIndicatorModel;
+                if (_uiModel != null)
+                {
+                    switch (channelName)
+                    {
+                        case RatePropName:
+                            _uiModel.Rate = (double)channelValue;
+                            //_uiModel.NotifyModelChanged("MiddleName");
+                            break;
+                        case AddressPropName:
+                            _uiModel.Addr = (string)channelValue;
+                            break;
+                        case CertPropName:
+                            _uiModel.Cert = (string)channelValue;
+                            break;
+                        case StringChannelName:
+                            _uiModel.Channel = (string)channelValue;
+                            break;
+                        default:
+                            break;
+                    }
+                    transaction.Commit();
+                }
             }
         }
         #endregion

@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="679ADFA6310C2AE21E6BD36C2D5618BE4B16B23F702D30A3E2A9A00B5A8925773E26A78EBB8F441827AC8E6A13FFB2EF57A277354017AFBCE48360FBECBD2D70" Timestamp="1DAEC14BC7123A1" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="B505E9456681F2262690FE868393D15B43A75D13F1ADA74412765F9A745832110310A7F33F954B9275744A6DB8F0E13826DB402971E12AC9839A99DE687DACC5" Timestamp="1DAF1D3FC03799B" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Configuration Based Software Core" Name="http://www.ni.com/ConfigurationBasedSoftware.Core" OldestCompatibleVersion="6.3.0.49152" Version="6.3.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PanelCommon" OldestCompatibleVersion="6.1.0.0" Version="6.1.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="VeriStand Core Components" Name="http://www.ni.com/VeriStand" OldestCompatibleVersion="9.0.0.49152" Version="9.0.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="1.0.0.0" FeatureSetName="VeriStand Example Plugin" Name="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" OldestCompatibleVersion="1.1.0.49152" Version="1.1.0.49152" />
 		<ApplicationVersionInfo Build="9.3.0.49854" Name="VeriStand" Version="9.6.0.49854" />
 	</SourceModelFeatureSet>
 	<Screen Id="2" xmlns="http://www.ni.com/VeriStand">
-		<ScreenSurface Height="[float]1600" Id="1" Left="[float]0" PanelSizeMode="Fixed" Top="[float]0" Width="[float]2000" xmlns="http://www.ni.com/ConfigurationBasedSoftware.Core" />
+		<ScreenSurface Height="[float]1600" Id="1" Left="[float]0" PanelSizeMode="Fixed" Top="[float]0" Width="[float]2000" xmlns="http://www.ni.com/ConfigurationBasedSoftware.Core">
+			<MergeString Height="[float]160" Id="14a80e32407243edb8e0e36daa9cf7ed" Label="[UIModel]5ddac1ad8c92452ebd16c08c6c1b5533" Left="[float]98" MiddleName="[string]123" Top="[float]138" Width="[float]160" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="5ddac1ad8c92452ebd16c08c6c1b5533" LabelOwner="[UIModel]14a80e32407243edb8e0e36daa9cf7ed" Left="[float]98" Text="[string]MergeString" Top="[float]118" Width="[float]66" xmlns="http://www.ni.com/PanelCommon" />
+		</ScreenSurface>
 	</Screen>
 </SourceFile>

@@ -65,7 +65,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     break;
             }
         }
-
         #endregion
     }
 }
