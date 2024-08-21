@@ -10,7 +10,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
             <ni:StringControl  x:Name="DataControl"
-                               Text="{Binding stringInput, UpdateSourceTrigger=PropertyChanged,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:StringControl}}}"
+                               Text="{Binding Data, UpdateSourceTrigger=PropertyChanged,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:StringControl}}}"
                                MinWidth="90" MinHeight="20"
                                Width="Auto" Height="Auto" MaxWidth="1000" MaxHeight="100" Margin="2" Padding="2" 
                                TextWrapping="Wrap" SelectOnFocus="True" BorderThickness="1"/>

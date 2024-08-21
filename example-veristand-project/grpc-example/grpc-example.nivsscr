@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="A7C672DC6B867D425A07C1BDA8EC901E81D563345AD7E4728B5A1AB9B1E915069D9AFCE560B9296545E70B347B9BE0536BD0334A1FEA336C194500B4908B7723" Timestamp="1DAF1E0167101FB" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="64E9EFA141472E2A4AC7D08828121F3FACC4E76A0C7F22D91CF80B65CED7B3388687C4F82ED959EEDDDC4943A24EBBBA07A4046B0D34D743FAED5B68808D4E78" Timestamp="1DAF36623517283" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Configuration Based Software Core" Name="http://www.ni.com/ConfigurationBasedSoftware.Core" OldestCompatibleVersion="6.3.0.49152" Version="6.3.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="LabVIEW Controls" Name="http://www.ni.com/Controls.LabVIEW.Design" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PanelCommon" OldestCompatibleVersion="6.1.0.0" Version="6.1.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="VeriStand Core Components" Name="http://www.ni.com/VeriStand" OldestCompatibleVersion="9.0.0.49152" Version="9.0.0.49152" />
@@ -10,12 +11,23 @@
 	</SourceModelFeatureSet>
 	<Screen Id="c5056a35de843979a5696d0935fd81d" xmlns="http://www.ni.com/VeriStand">
 		<ScreenSurface Height="[float]1600" Id="da7998441f1445aab1b23ecc9a980c2" Left="[float]0" PanelSizeMode="Fixed" Top="[float]0" Width="[float]2000" xmlns="http://www.ni.com/ConfigurationBasedSoftware.Core">
-			<StringControl Height="[float]50" Id="b1b5cc646d5d476f9b9d0c8f06b81370" Label="[UIModel]949741d02adf4a0f930ed667ebedf2e0" Left="[float]114" StringChannel="[string]First Name" Top="[float]67" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
-			<Label Height="[float]16" Id="949741d02adf4a0f930ed667ebedf2e0" LabelOwner="[UIModel]b1b5cc646d5d476f9b9d0c8f06b81370" Left="[float]114" Text="[string]First Name" Top="[float]47" Width="[float]57" xmlns="http://www.ni.com/PanelCommon" />
-			<StringControl Height="[float]50" Id="ae3acaf595664d61b7957bba74f01755" Label="[UIModel]b02d9ee794d4898bab76d2383264016" Left="[float]114" StringChannel="[string]Last Name" Top="[float]141" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
-			<Label Height="[float]16" Id="b02d9ee794d4898bab76d2383264016" LabelOwner="[UIModel]ae3acaf595664d61b7957bba74f01755" Left="[float]114" Text="[string]Last Name" Top="[float]121" Width="[float]56" xmlns="http://www.ni.com/PanelCommon" />
-			<StringIndicator Height="[float]50" Id="6fc0bc13692b4f50b4f1265a7187fb3a" Label="[UIModel]d10609ceb5004ceea8882dac30b837ab" Left="[float]114" StringChannel="[string]Full Name" Top="[float]215" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
-			<Label Height="[float]16" Id="d10609ceb5004ceea8882dac30b837ab" LabelOwner="[UIModel]6fc0bc13692b4f50b4f1265a7187fb3a" Left="[float]114" Text="[string]Full Name" Top="[float]195" Width="[float]54" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="b1b5cc646d5d476f9b9d0c8f06b81370" Label="[UIModel]949741d02adf4a0f930ed667ebedf2e0" Left="[float]176" StringChannel="[string]First Name" Top="[float]84" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="949741d02adf4a0f930ed667ebedf2e0" LabelOwner="[UIModel]b1b5cc646d5d476f9b9d0c8f06b81370" Left="[float]176" Text="[string]First Name" Top="[float]64" Width="[float]57" xmlns="http://www.ni.com/PanelCommon" />
+			<StringIndicator Height="[float]50" Id="6fc0bc13692b4f50b4f1265a7187fb3a" Label="[UIModel]d10609ceb5004ceea8882dac30b837ab" Left="[float]176" StringChannel="[string]Full Name" Top="[float]216" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="d10609ceb5004ceea8882dac30b837ab" LabelOwner="[UIModel]6fc0bc13692b4f50b4f1265a7187fb3a" Left="[float]176" Text="[string]Full Name" Top="[float]196" Width="[float]53" xmlns="http://www.ni.com/PanelCommon" />
+			<ChannelNumericText BaseName="[string]Numeric" Channel="[string]Targets/Controller/Custom Devices/gRPC Data Server/Listening Port" Height="[float]24" Id="a334853ba735484da626d61e5d563d24" IsReadOnly="[bool]True" Label="[UIModel]caf024eff39458282340df7f3523787" Left="[float]56" Top="[float]84" UnitAnnotation="[string]" ValueFormatter="[string]LV:G5" ValueType="[Type]Double" Width="[float]70" />
+			<Label Height="[float]16" Id="caf024eff39458282340df7f3523787" LabelOwner="[UIModel]a334853ba735484da626d61e5d563d24" Left="[float]56" Text="[string]Listening Port" Top="[float]64" Width="[float]72" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="ef5f04f6e0634a8daab81c01dbfefdaa" Label="[UIModel]6e72595cb1d34ee583b2f2dfb7c06a22" Left="[float]176" StringChannel="[string]Last Name" Top="[float]150" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="6e72595cb1d34ee583b2f2dfb7c06a22" LabelOwner="[UIModel]ef5f04f6e0634a8daab81c01dbfefdaa" Left="[float]176" Text="[string]Last Name" Top="[float]130" Width="[float]56" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="b4f122d929514a779bd4bfcc410c3196" Label="[UIModel]b2415fce383a4357bd0bc3cb96deedfb" Left="[float]331" Top="[float]84" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="b2415fce383a4357bd0bc3cb96deedfb" LabelOwner="[UIModel]b4f122d929514a779bd4bfcc410c3196" Left="[float]331" Text="[string]Unknown" Top="[float]64" Width="[float]51" xmlns="http://www.ni.com/PanelCommon" />
+			<Text Height="[float]16" Id="334026e12e09444e8286d0f2a4d63c54" Left="[float]176" Text="[string]Large number operation using string" TextWrapping="[TextWrapping]Wrap" Top="[float]300" Width="[float]195" xmlns="http://www.ni.com/PlatformFramework" />
+			<StringIndicator Height="[float]50" Id="31d93873c32048a28b43b550fa04bc31" Label="[UIModel]bbeda00dcc84435c8be7ef546f759a91" Left="[float]176" StringChannel="[string]Sum" Top="[float]508" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="bbeda00dcc84435c8be7ef546f759a91" LabelOwner="[UIModel]31d93873c32048a28b43b550fa04bc31" Left="[float]176" Text="[string]Sum" Top="[float]488" Width="[float]24" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="3a3c35b1852c41fe9e47bafa5bdef1c9" Label="[UIModel]ecbf9466ffef472187027e637b901b73" Left="[float]176" StringChannel="[string]Number 1" Top="[float]358" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="ecbf9466ffef472187027e637b901b73" LabelOwner="[UIModel]3a3c35b1852c41fe9e47bafa5bdef1c9" Left="[float]176" Text="[string]Number 1" Top="[float]338" Width="[float]54" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="c2ee7390d15a4282a6b6fd01a43cb8dc" Label="[UIModel]cadec97132ad43d7b0572fb42c502b25" Left="[float]176" StringChannel="[string]Number 2" Top="[float]427" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="cadec97132ad43d7b0572fb42c502b25" LabelOwner="[UIModel]c2ee7390d15a4282a6b6fd01a43cb8dc" Left="[float]176" Text="[string]Number 2" Top="[float]407" Width="[float]54" xmlns="http://www.ni.com/PanelCommon" />
 		</ScreenSurface>
 	</Screen>
 </SourceFile>

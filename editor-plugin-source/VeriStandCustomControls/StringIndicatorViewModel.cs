@@ -13,6 +13,7 @@ using NationalInstruments.Design;
 using NationalInstruments.DataTypes;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
+using LabVIEW.gRPC;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -71,8 +72,103 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _model.PropertyChanged -= OnModelPropertyChanged;
         }
 
+        #region UserDefinedLogic
+        // DispatcherTimer doesn't work in model hence we implement the user logic in view model.
+
         public string Data { get; set; }
         public string Status { get; set; }
+
+        ulong gRPCId = 0;
+        RequestData requestData = new RequestData();
+        ResponseData responseData = new ResponseData();
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
+        private void StartGrpc()
+        {
+            try
+            {
+                VeriStandgrpc_client.CreateClient(_model.Addr, _model.Cert, out gRPCId);
+            }
+            catch (Exception e1)
+            {
+                Status = getErrReason(e1);
+                NotifyPropertyChanged(nameof(Status));
+            }
+
+            // Try to create the session again if first time failed
+            if (gRPCId == 0)
+            {
+                Task.Delay(500);
+                try
+                {
+                    VeriStandgrpc_client.CreateClient(_model.Addr, _model.Cert, out gRPCId);
+                }
+                catch (Exception e1)
+                {
+                    Status = getErrReason(e1);
+                    NotifyPropertyChanged(nameof(Status));
+                }
+            }
+
+            dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
+            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _model.Rate);
+            dispatcherTimer.Start();
+        }
+
+        private void StopGrpc()
+        {
+            try
+            {
+                VeriStandgrpc_client.DestroyClient(gRPCId);
+                gRPCId = 0;
+            }
+            catch (Exception e2)
+            {
+                Status = getErrReason(e2);
+                NotifyPropertyChanged(nameof(Status));
+            }
+
+            dispatcherTimer.Stop();
+            dispatcherTimer.Tick -= DataTimer_Tick;
+        }
+
+        private void DataTimer_Tick(object sender, EventArgs e)
+        {
+            if (gRPCId != 0)
+            {
+                requestData.channel = _model.Channel;
+                try
+                {
+                    VeriStandgrpc_client.GrpcRead(gRPCId, requestData, out responseData, 100, 0);
+                    if (responseData.status == "OK")
+                    {
+                        Data = responseData.data;
+                        Status = string.Empty;
+                    }
+                    else
+                    {
+                        Data = string.Empty;
+                        Status = responseData.status;
+                    }
+                }
+                catch (Exception e3)
+                {
+                    Data = string.Empty;
+                    Status = getErrReason(e3);
+                }
+            }
+            NotifyPropertyChanged(nameof(Data));
+            NotifyPropertyChanged(nameof(Status));
+        }
+
+        private string getErrReason(Exception error)
+        {
+            string errTxt;
+            errTxt = error.Message.Substring(error.Message.IndexOf("<ERR>") + 6);
+            // Get the text of possible reason 
+            return errTxt;
+        }
+        #endregion
 
         #region Events
         ///// <summary>
@@ -96,12 +192,12 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         {
             switch (e.PropertyName)
             {
-                case "Data":    // Forward the model value change to view
-                    Data = _model.Data;
-                    NotifyPropertyChanged(nameof(Data)); break;
-                case "Status":    // Forward the model value change to view
-                    Status = _model.Status;
-                    NotifyPropertyChanged(nameof(Status)); break;
+                case "Connect":
+                    if (_model.Connect == true)
+                        StartGrpc();
+                    else
+                        StopGrpc();
+                    break;
                 default:
                     break;
             }

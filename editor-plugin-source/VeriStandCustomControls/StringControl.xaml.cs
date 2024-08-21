@@ -26,10 +26,10 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _viewModel.PropertyChanged += OnViewModelChanged;
         }
 
-        public string stringInput
+        public string Data
         {
             get { return _viewModel.Data; }
-            set { _viewModel.Data = value; OnPropertyChanged(nameof(stringInput));}
+            set { _viewModel.Data = value; OnPropertyChanged(nameof(Data));}
         }
 
         public string Status

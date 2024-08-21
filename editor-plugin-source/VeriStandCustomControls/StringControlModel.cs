@@ -225,6 +225,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         #endregion
 
         #region VeriStandGateway
+        public bool Connect { get; private set; }
+
         /// <summary>
         /// Called when VeriStand connects to the gateway. This control should register for the channel value change
         /// events it is interested in when this happens.
@@ -238,7 +240,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(StringControlModelErrorString, this);
                 });
-            StartGrpc();
+            Connect = true;
+            OnPropertyChanged(nameof(Connect));
             await Task.Delay(100);
         }
 
@@ -282,7 +285,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     MessageScope?.AllMessages.ClearMessageByCategoryAndReportingElement(
                         StringControlModelErrorString,
                         this));
-            StopGrpc();
+            Connect = false;
+            OnPropertyChanged(nameof(Connect));
             await Task.Delay(100);            
         }
 
@@ -305,95 +309,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public Task OnShutdownAsync()
         {
             return Task.CompletedTask;
-        }
-        #endregion
-
-        #region UserDefinedLogic
-        public string Data { get; set; }
-        public string Status { get; private set; }
-
-        ulong gRPCId = 0;
-        RequestData requestData = new RequestData();
-        ResponseData responseData = new ResponseData();
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-
-        private void StartGrpc()
-        {
-            try
-            {
-                VeriStandgrpc_client.CreateClient(Addr, Cert, out gRPCId);
-            }
-            catch (Exception e1)
-            {
-                Status = getErrReason(e1);
-                OnPropertyChanged(nameof(Status));
-            }
-
-            // Try to create the session again if first time failed
-            if (gRPCId == 0)
-            {
-                Task.Delay(500);
-                try
-                {
-                    VeriStandgrpc_client.CreateClient(Addr, Cert, out gRPCId);
-                }
-                catch (Exception e1)
-                {
-                    Status = getErrReason(e1);
-                    OnPropertyChanged(nameof(Status));
-                }
-            }
-
-            dispatcherTimer.Tick += new EventHandler(DataTimer_Tick);
-            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / Rate);
-            dispatcherTimer.Start();
-        }
-
-        private void StopGrpc()
-        {
-            try
-            {
-                VeriStandgrpc_client.DestroyClient(gRPCId);
-                gRPCId = 0;
-            }
-            catch (Exception e2)
-            {
-                Status = getErrReason(e2);
-                OnPropertyChanged(nameof(Status));
-            }
-
-            dispatcherTimer.Stop();
-            dispatcherTimer.Tick -= DataTimer_Tick;
-        }
-
-        private void DataTimer_Tick(object sender, EventArgs e)
-        {
-            if (gRPCId != 0)
-            {
-                requestData.channel = Channel;
-                requestData.data = Data;
-                try
-                {
-                    VeriStandgrpc_client.GrpcWrite(gRPCId, requestData, out responseData, 100, 0);
-                    if (responseData.status == "OK")
-                        Status = string.Empty;
-                    else
-                        Status = responseData.status;
-                }
-                catch (Exception e3)
-                {
-                    Status = getErrReason(e3);
-                }
-            }
-            OnPropertyChanged(nameof(Status));
-        }
-
-        private string getErrReason(Exception error)
-        {
-            string errTxt;
-            errTxt = error.Message.Substring(error.Message.IndexOf("<ERR>") + 6);
-            // Get the text of possible reason 
-            return errTxt;
         }
         #endregion
 
