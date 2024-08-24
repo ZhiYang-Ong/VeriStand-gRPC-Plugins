@@ -6,15 +6,20 @@
              xmlns:ni="http://schemas.ni.com/controls/2009/xaml/presentation"
              xmlns:local="clr-namespace:NationalInstruments.VeriStand.GrpcPlugins"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="95">
+             d:DesignWidth="105" d:DesignHeight="50">
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-            <ni:StringControl  x:Name="DataIndicator"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="92" Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="22" Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <ni:StringControl  x:Name="DataIndicator"
                                Text="{Binding Data, UpdateSourceTrigger=PropertyChanged,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:StringIndicator}}}"
-                               MinWidth="90" MinHeight="20" IsReadOnly="True" Background="DarkGray"
-                               Width="Auto" Height="Auto" MaxWidth="1000" MaxHeight="100" Margin="2" Padding="2" 
+                               Grid.Row="0" MinWidth="90" MinHeight="20" IsReadOnly="True" Background="DarkGray"
+                               Width="Auto" Height="Auto" Margin="2" Padding="2" 
                                TextWrapping="Wrap" SelectOnFocus="True" BorderThickness="1"/>
-            <Label Content="{Binding Status, UpdateSourceTrigger=PropertyChanged,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:StringIndicator}}}" />
-        </StackPanel>
+        <Label Grid.Row="1" Content="{Binding Status, UpdateSourceTrigger=PropertyChanged,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:StringIndicator}}}" />
     </Grid>
 </UserControl>
