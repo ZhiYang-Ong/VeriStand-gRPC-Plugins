@@ -177,6 +177,15 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             set { SetOrReplaceImmediateValue(StringChannelSymbol, value); }
         }
 
+        public const string FontSizeName = "FontSize";
+        public static readonly PropertySymbol FontSizeSymbol =
+            ExposePropertySymbol<StringControlModel>(FontSizeName, (double)0);
+        public double FontSize
+        {
+            get { return ImmediateValueOrDefault<double>(FontSizeSymbol); }
+            set { SetOrReplaceImmediateValue(FontSizeSymbol, value); OnPropertyChanged(nameof(FontSize)); }
+        }
+
         /// <summary>
         /// Gets the type of the specified property.  This must be implemented for any new properties that get added that need to be serialized.
         /// </summary>
@@ -194,6 +203,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     return typeof(string);
                 case StringChannelName:
                     return typeof(string);
+                case FontSizeName:
+                    return typeof(double);
                 default:
                     return base.GetPropertyType(identifier);
             }
@@ -216,6 +227,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     return string.Empty;
                 case StringChannelName:
                     return string.Empty;
+                case FontSizeName:
+                    return (double)15;
                 default:
                     return base.DefaultValue(identifier);
             }

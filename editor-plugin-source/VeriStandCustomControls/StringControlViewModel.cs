@@ -164,46 +164,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         }
         #endregion
 
-        #region Events
-        ///// <summary>
-        ///// Called by the view when a value change occurs.
-        ///// </summary>
-        ///// <param name="sender">sending object - not used</param>
-        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        private void OnViewPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Process the notification from model.
-        /// </summary>
-        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "Connect":
-                    if (_model.Connect == true)
-                        StartGrpc();
-                    else
-                        StopGrpc();
-                    break;
-                default:
-                    break;
-            }
-        }
-        #endregion
-
         #region ConfigurationPane
-        public const string RatePropName = "Rate (Hz)";
-        public const string AddressPropName = "Address";
-        public const string CertPropName = "Certificate Path";
-        public const string StringChannelName = "Channel Name";
-
         /// <summary>
         ///  Creates configuration pane content for this control. See comments on
         ///  <see cref="IProvideCommandContent"/> for more information about correct usage of this function.
@@ -226,8 +187,22 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     context.Add(certConfig, new PathSelectorFactory() { Filters = filters });
                     context.Add(chnConfig, TextBoxFactory.ForConfigurationPane);
                 }
+
+                using (context.AddGroup(ConfigurationPaneCommands.VisualStyleContentFontGroupCommand))
+                {
+                    context.Add(FontSizeConfig, new NumericTextBoxFactory(NITypes.Double));
+                    //context.AddFontEditor(ICommandEx fontFamilyCommand, ICommandEx fontSizeCommand, ICommandEx fontStyleCommand);
+                }
             }
         }
+
+        public const string RatePropName = "Rate (Hz)";
+        public const string AddressPropName = "Address";
+        public const string CertPropName = "Certificate Path";
+        public const string StringChannelName = "Channel Name";
+
+        public const string FontSizeName = "Font Size";
+        public double FontSize { get; private set; }
 
         /// A numeric command
         public static readonly ICommandEx waitConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
@@ -259,6 +234,14 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             LabelTitle = StringChannelName,
             UniqueId = "NI.ConfigCommands:ChnName",
             UIType = UITypeForCommand.TextBox,
+        };
+
+        /// A numeric command
+        public static readonly ICommandEx FontSizeConfig = new ShellSelectionRelayCommand(HandleExecuteCommand, HandleCanExecuteCommand)
+        {
+            LabelTitle = FontSizeName,
+            UniqueId = "NI.ConfigCommands:FontSize",
+            UIType = UITypeForCommand.ComboBox
         };
 
         /// <summary>
@@ -305,6 +288,10 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     case RatePropName:
                         numericParameter.Value = _model.Rate; break;
+                    case FontSizeName:
+                        numericParameter.Value = _model.FontSize;
+                        viewModel.FontSize = _model.FontSize;
+                        break;
                     default:
                         break;
                 }
@@ -352,6 +339,8 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 {
                     case RatePropName:
                         UpdateSerializedProperty(RatePropName, numericParameter.Value); break;
+                    case FontSizeName:
+                        UpdateSerializedProperty(FontSizeName, numericParameter.Value); break;
                     default:
                         break;
                 }
@@ -371,7 +360,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     {
                         case RatePropName:
                             _uiModel.Rate = (double)channelValue;
-                            //_uiModel.NotifyModelChanged("MiddleName");
                             break;
                         case AddressPropName:
                             _uiModel.Addr = (string)channelValue;
@@ -382,11 +370,52 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                         case StringChannelName:
                             _uiModel.Channel = (string)channelValue;
                             break;
+                        case FontSizeName:
+                            _uiModel.FontSize = (double)channelValue;
+                            //_uiModel.NotifyModelChanged(nameof(FontSizeName));
+                            break;
                         default:
                             break;
                     }
                     transaction.Commit();
                 }
+            }
+        }
+        #endregion
+
+        #region Events
+        ///// <summary>
+        ///// Called by the view when a value change occurs.
+        ///// </summary>
+        ///// <param name="sender">sending object - not used</param>
+        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
+        private void OnViewPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the notification from model.
+        /// </summary>
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Connect":
+                    if (_model.Connect == true)
+                        StartGrpc();
+                    else
+                        StopGrpc();
+                    break;
+                case "FontSize":
+                    FontSize = _model.FontSize;    // Forward the model value change to view
+                    NotifyPropertyChanged(nameof(FontSize)); break;
+                default:
+                    break;
             }
         }
         #endregion

@@ -19,7 +19,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         /// </remarks>
         protected override void AddSupportedModels()
         {
-            AddSupportedModel<MergeStringModel>(e => new MergeStringViewModel(e));
+            //AddSupportedModel<MergeStringModel>(e => new MergeStringViewModel(e));
             AddSupportedModel<StringControlModel>(e => new StringControlViewModel(e));
             AddSupportedModel<StringIndicatorModel>(e => new StringIndicatorViewModel(e));
         }

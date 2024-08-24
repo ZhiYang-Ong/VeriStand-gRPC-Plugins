@@ -59,6 +59,9 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                     OnPropertyChanged("Data"); break;
                 case "Status":
                     OnPropertyChanged("Status"); break;
+                case "FontSize":
+                    DataIndicator.FontSize = _viewModel.FontSize;
+                    break;
                 default:
                     break;
             }

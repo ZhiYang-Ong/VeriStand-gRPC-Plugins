@@ -60,7 +60,10 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             switch (e.PropertyName)
             {
                 case "Status":
-                    OnPropertyChanged("Status"); break;
+                    OnPropertyChanged(nameof(Status)); break;
+                case "FontSize":
+                    DataControl.FontSize = _viewModel.FontSize;
+                    break;
                 default:
                     break;
             }

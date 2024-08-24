@@ -128,10 +128,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MergeString.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="StringControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,11 +148,6 @@
     <Compile Include="ExamplePreferencePage.xaml.cs">
       <DependentUpon>ExamplePreferencePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MergeString.xaml.cs">
-      <DependentUpon>MergeString.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MergeStringModel.cs" />
-    <Compile Include="MergeStringViewModel.cs" />
     <Compile Include="PluginNamespaceSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
