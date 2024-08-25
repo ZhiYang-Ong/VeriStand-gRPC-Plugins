@@ -22,18 +22,22 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _viewModel.PropertyChanged += OnViewModelChanged;
         }
 
-        /// Forward the change event to View
-        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
+        public string Data
         {
-            if (e.PropertyName == "Data")
-                OnPropertyChanged(nameof(stringValue));
-            else if (e.PropertyName == "Status")
-                OnPropertyChanged(nameof(Status));
+            get { return _viewModel.Data; }
+            set { _viewModel.Data = value; OnPropertyChanged(nameof(Data)); }
         }
 
+        public string Status
+        {
+            get { return _viewModel.Status; }
+            set { _viewModel.Status = value; OnPropertyChanged(nameof(Status)); }
+        }
+
+        #region Events 
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
-        /// Raises OnPropertychangedEvent when property changes
+        /// Event that is fired when the view value changes, using INotifyPropertyChanged
         /// </summary>
         /// <param name="name">String representing the property name</param>
         public void OnPropertyChanged([CallerMemberName] string name = null)
@@ -44,23 +48,24 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        public string stringValue
+        ///// <summary>
+        ///// Event that is fired when the value on the view model changes
+        ///// </summary>
+        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return _viewModel.Data; }
-            set {
-                _viewModel.Data = value;
-                OnPropertyChanged(nameof(stringValue));
-            }
-        }
-
-        public string Status
-        {
-            get { return _viewModel.Status; }
-            set
+            switch (e.PropertyName)
             {
-                _viewModel.Status = value;
-                OnPropertyChanged(nameof(Status));
+                case "Data":
+                    OnPropertyChanged("Data"); break;
+                case "Status":
+                    OnPropertyChanged("Status"); break;
+                case "FontSize":
+                    DataIndicator.FontSize = _viewModel.FontSize;
+                    break;
+                default:
+                    break;
             }
         }
+        #endregion
     }
 }

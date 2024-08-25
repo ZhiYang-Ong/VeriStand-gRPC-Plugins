@@ -54,6 +54,7 @@
   <ItemGroup>
     <Reference Include="lvgrpc">
       <HintPath>..\labview-grpc-assembly\lvgrpc.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NationalInstruments.Controls">
       <SpecificVersion>False</SpecificVersion>
@@ -128,8 +129,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="StringControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StringIndicator.xaml">
       <Generator>MSBuild:Compile</Generator>

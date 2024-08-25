@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SourceFile Checksum="57D8DB2C3F54E14BC7E7AC06EB77E473FD7EB0D6D430750DE6A4E900FEBC42DDD68871BE7EC9F984A4C342B02F798DC09A4342D498E97F0231C6DD412D1775C8" xmlns="http://www.ni.com/PlatformFramework">
+	<SourceModelFeatureSet>
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="VeriStand Core Components" Name="http://www.ni.com/VeriStand" OldestCompatibleVersion="9.0.0.49152" Version="9.0.0.49152" />
+		<ApplicationVersionInfo Build="9.3.0.49854" Name="VeriStand" Version="9.6.0.49854" />
+	</SourceModelFeatureSet>
+	<Project xmlns="http://www.ni.com/PlatformFramework">
+		<EnvoyManagerRootEnvoy Id="1" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
+		<EmbeddedDefinitionReference Id="2" ModelDefinitionType="NationalInstruments.ProjectExplorer.Modeling.ProjectDataManager" Name="ProjectExplorer">
+			<ProjectExplorer />
+		</EmbeddedDefinitionReference>
+		<NameScopingEnvoy Id="4" ModelDefinitionType="DefaultTarget" Name="DefaultTarget">
+			<DefaultTarget />
+			<EmbeddedDefinitionReference Id="5" ModelDefinitionType="GatewayDefinition" Name="Gateway" Reparentable="False">
+				<GatewayDefinition xmlns="http://www.ni.com/VeriStand" />
+			</EmbeddedDefinitionReference>
+			<FileReference Bindings=".nivscf" Id="cf774dd85f5144c0861e71627de51c1e" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="merge-string-test.nivscf" StoragePath="merge-string-test.nivscf" />
+			<SourceFileReference Id="57ce014122ea42de8d48007a2548ca0e" ModelDefinitionType="{http://www.ni.com/VeriStand}Screen" Name="merge-string-test.nivsscr" StoragePath="merge-string-test.nivsscr" />
+			<FileReference Bindings=".nivsscreen" Id="634d449da6544808a562f3583e08e117" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="merge-string-test.nivsscreen" StoragePath="merge-string-test.nivsscreen" />
+			<FileReference Bindings=".nivsproj" Id="2222c22b2e1c4d01a346dcfdb0cbc629" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="merge-string-test.nivsproj" StoragePath="merge-string-test.nivsproj" />
+			<SourceFileReference Bindings="EnvoyManager" Id="3b411c58caf44c088507e8ce15f1228e" ModelDefinitionType="{http://www.ni.com/VeriStand}SystemDefinition" Name="merge-string-test.nivssdf" StoragePath="merge-string-test.nivssdf" />
+			<EmbeddedDefinitionReference Id="e0a0fcf068a84ff795ac598038328661" ModelDefinitionType="SdfFilePath" Name="SdfPath" Reparentable="False">
+				<SdfFilePath SdfPath="merge-string-test.nivssdf" xmlns="http://www.ni.com/VeriStand" />
+			</EmbeddedDefinitionReference>
+		</NameScopingEnvoy>
+	</Project>
+	<ProjectInformation xmlns="http://www.ni.com/PlatformFramework" />
+</SourceFile>

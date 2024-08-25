@@ -140,7 +140,7 @@
 				<Property Name="Bld_postActionVIID" Type="Ref">/My Computer/Utility/Copy .LLB to NI VeriStand dir.vi</Property>
 				<Property Name="Bld_preActionVIID" Type="Ref">/My Computer/Utility/LLB Pre-Build CHM Build.vi</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{C1104DB9-1E18-4544-987E-F3F5B699BED6}</Property>
-				<Property Name="Bld_version.build" Type="Int">21</Property>
+				<Property Name="Bld_version.build" Type="Int">24</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">gRPC Data Server Configuration.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../Built/gRPC Data Server/Windows/gRPC Data Server Configuration.lvlibp</Property>

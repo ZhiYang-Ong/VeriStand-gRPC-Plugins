@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using NationalInstruments.Controls;
-
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -27,18 +26,24 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             _viewModel.PropertyChanged += OnViewModelChanged;
         }
 
-        /// Forward the change event to View
-        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
+        public string Data
         {
-            if (e.PropertyName == "Status")
-                OnPropertyChanged(nameof(Status));
+            get { return _viewModel.Data; }
+            set { _viewModel.Data = value; OnPropertyChanged(nameof(Data));}
         }
 
+        public string Status
+        {
+            get { return _viewModel.Status; }
+            set { _viewModel.Status = value; OnPropertyChanged(nameof(Status));}
+        }
+
+        #region Events 
+        public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
-        /// Event that is fired to change value on control
+        /// Event that is fired when the view value changes, using INotifyPropertyChanged
         /// </summary>
         /// <param name="name">String representing the property name</param>
-        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = null)
         {
             if (PropertyChanged != null)
@@ -47,44 +52,22 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
 
-        private string _value;
-        public string stringValue
+        ///// <summary>
+        ///// Event that is fired when the value on the view model changes
+        ///// </summary>
+        private void OnViewModelChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return _value; }
-            set
+            switch (e.PropertyName)
             {
-                _value = value;
-                OnValueChanged(stringValue, nameof(stringValue));
+                case "Status":
+                    OnPropertyChanged(nameof(Status)); break;
+                case "FontSize":
+                    DataControl.FontSize = _viewModel.FontSize;
+                    break;
+                default:
+                    break;
             }
         }
-
-        public string Status
-        {
-            get { return _viewModel.Status; }
-            set
-            {
-                _viewModel.Status = value;
-                OnPropertyChanged(nameof(Status));
-            }
-        }
-
-        /// <summary>
-        /// Event that is fired when the value on the control changes
-        /// </summary>
-        public event EventHandler<CustomChannelValueChangedEventArgs> ValueChanged;
-
-        /// <summary>
-        /// Raises the ChannelValueChanged event. Invoked when the channel value changes.
-        /// </summary>
-        /// <param name="channelValue">New channel value</param>
-        /// <param name="channelName">Name of the channel that changed</param>
-        protected virtual void OnValueChanged(string channelValue, string channelName)
-        {
-            var channelValueChangedSubscribers = ValueChanged;
-            if (channelValueChangedSubscribers != null)
-            {
-                channelValueChangedSubscribers(this, new CustomChannelValueChangedEventArgs(channelValue, channelName));
-            }
-        }
+        #endregion
     }
 }
