@@ -1,3 +1,4 @@
+
 # VeriStand-gRPC-Plugins
 
 VeriStand Engine only supports streaming data in DBL. This repo provides editor plugins that allow users to read and write strings using gRPC.
@@ -19,12 +20,11 @@ Due to internal naming conflicts issue, the gRPC Data Server Custom Device was c
 
 ## Note
 ### Known caveats
-1. This project has only been tested on Windows. To run it on Linux RT, copy "C:\Users\Public\Documents\National Instruments\NI VeriStand 2021\Custom UI Manager Controls\Libraries\LinuxRT\liblabview_grpc_server.so" to "/home/lvuser/natinst/bin/liblabview_grpc_server.so" on the Linux RT target using FileZilla.
-2. The channel names configured for gRPC channels are not stored to the .nivsscr file and will be lost when VeriStand closes. 
+1. This project has only been tested on Windows although the gRPC Data Server Custom Device supports Linux RT.
 
 ### Dependencies
 * [gRPC Support for LabVIEW v1.0.1.1](https://github.com/ni/grpc-labview/releases/tag/v1.0.1.1))
-* .NET - .NET 4.6.2 installed to your local machine. VeriStand is built against this version.
+* .NET - .NET 4.6.2 installed on your local machine. VeriStand is built against this version.
 * Compiler - Any C# editor and compiler that supports .NET 4.6.2. These codes were created with Visual Studio 2015.
 
 ### Reference
@@ -32,4 +32,4 @@ Due to internal naming conflicts issue, the gRPC Data Server Custom Device was c
 * [gRPC Support for LabVIEW](https://github.com/ni/grpc-labview/)
 
 ## Support
-This code is provided as is. For any feedbacks, please create a new [issue ticket](https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins/issues).
+This code is provided as is. For any feedback, please create a new [issue ticket](https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins/issues).
