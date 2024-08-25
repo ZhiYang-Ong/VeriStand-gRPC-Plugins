@@ -77,45 +77,7 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; private set; }
-        
-
-        #region Events
-        ///// <summary>
-        ///// Called by the view when a value change occurs.
-        ///// </summary>
-        ///// <param name="sender">sending object - not used</param>
-        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
-        private void OnViewPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "FirstName":   // Forward the view value change to model
-                    _model.FirstName = FirstName;
-                    _model.NotifyModelChanged("FirstName"); break;
-                case "LastName":   // Forward the view value value to model
-                    _model.LastName = LastName;
-                    _model.NotifyModelChanged("LastName"); break;
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Process the notification from model.
-        /// </summary>
-        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch(e.PropertyName)
-            {
-                case "FullName":    // Forward the model value change to view
-                    FullName = _model.FullName;
-                    NotifyPropertyChanged(nameof(FullName)); break;
-                default:
-                    break;
-            }
-        }
-        #endregion
-
+     
         #region ConfigurationPane
         private const string channelName_MiddleName = "Middle Name";
 
@@ -262,5 +224,43 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             }
         }
         #endregion
+
+        #region Events
+        ///// <summary>
+        ///// Called by the view when a value change occurs.
+        ///// </summary>
+        ///// <param name="sender">sending object - not used</param>
+        ///// <param name="eventArgs">custom event information telling us which channel changed and what its value is</param>
+        private void OnViewPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "FirstName":   // Forward the view value change to model
+                    _model.FirstName = FirstName;
+                    _model.NotifyModelChanged("FirstName"); break;
+                case "LastName":   // Forward the view value value to model
+                    _model.LastName = LastName;
+                    _model.NotifyModelChanged("LastName"); break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the notification from model.
+        /// </summary>
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "FullName":    // Forward the model value change to view
+                    FullName = _model.FullName;
+                    NotifyPropertyChanged(nameof(FullName)); break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
     }
 }

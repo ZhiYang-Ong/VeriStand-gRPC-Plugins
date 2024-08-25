@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="DC41ED9244A53E043764F443434596645291D80A85CB3F542581146744455F734E5ED661004EF8CED1B7EF1961D6F0B938B5244EA39DF46923B1D8105C86782D" Timestamp="1DAF665E2505DEE" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="5C36B158537F824CF976731A70A4E587154E1C4105FBC477872594AAA9F3F627E67FC6FE9A720F4A978112DEC74C92FCCE12FC467C9B4B9C44D80B7812F50386" Timestamp="1DAF707A97ABBCE" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="Configuration Based Software Core" Name="http://www.ni.com/ConfigurationBasedSoftware.Core" OldestCompatibleVersion="6.3.0.49152" Version="6.3.0.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.6.0.49854" FeatureSetName="LabVIEW Controls" Name="http://www.ni.com/Controls.LabVIEW.Design" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -13,6 +13,12 @@
 		<ScreenSurface Height="[float]1600" Id="da7998441f1445aab1b23ecc9a980c2" Left="[float]0" PanelSizeMode="Fixed" Top="[float]0" Width="[float]2000" xmlns="http://www.ni.com/ConfigurationBasedSoftware.Core">
 			<ChannelNumericText BaseName="[string]Numeric" Channel="[string]Targets/Controller/Custom Devices/gRPC Data Server/Listening Port" Height="[float]24" Id="a334853ba735484da626d61e5d563d24" IsReadOnly="[bool]True" Label="[UIModel]caf024eff39458282340df7f3523787" Left="[float]67" Top="[float]117" UnitAnnotation="[string]" ValueFormatter="[string]LV:G5" ValueType="[Type]Double" Width="[float]70" />
 			<Label Height="[float]16" Id="caf024eff39458282340df7f3523787" LabelOwner="[UIModel]a334853ba735484da626d61e5d563d24" Left="[float]67" Text="[string]Listening Port" Top="[float]97" Width="[float]72" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl Height="[float]50" Id="a4b618738e1342fda65ad067ecc1700d" IpAddress="[string]localhost:50051" Label="[UIModel]123cb210d0454ab8ae0c7a7d48ce0f53" Left="[float]189" StringChannel="[string]First Name" Top="[float]117" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="123cb210d0454ab8ae0c7a7d48ce0f53" LabelOwner="[UIModel]a4b618738e1342fda65ad067ecc1700d" Left="[float]189" Text="[string]First Name" Top="[float]97" Width="[float]58" xmlns="http://www.ni.com/PanelCommon" />
+			<StringControl FontSize="[double]15" Height="[float]50" Id="a8dc2866ca2a4c27a55922239259c4c6" Label="[UIModel]afdbd3796a5342c19f587ac278526da3" Left="[float]189" StringChannel="[string]Last Name" Top="[float]220" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="afdbd3796a5342c19f587ac278526da3" LabelOwner="[UIModel]a8dc2866ca2a4c27a55922239259c4c6" Left="[float]189" Text="[string]Last Name" Top="[float]200" Width="[float]56" xmlns="http://www.ni.com/PanelCommon" />
+			<StringIndicator Height="[float]50" Id="5929cbb2f6bd4ef8b295f94fe27e355b" Label="[UIModel]cc00c53f22714ffb97b4915a966a6bbe" Left="[float]189" Rate="[double]5" StringChannel="[string]Full Name" Top="[float]323" Width="[float]105" xmlns="https://github.com/ZhiYang-Ong/VeriStand-gRPC-Plugins" />
+			<Label Height="[float]16" Id="cc00c53f22714ffb97b4915a966a6bbe" LabelOwner="[UIModel]5929cbb2f6bd4ef8b295f94fe27e355b" Left="[float]189" Text="[string]Full Name" Top="[float]303" Width="[float]54" xmlns="http://www.ni.com/PanelCommon" />
 		</ScreenSurface>
 	</Screen>
 </SourceFile>

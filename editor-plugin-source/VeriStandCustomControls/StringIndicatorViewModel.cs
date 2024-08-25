@@ -14,6 +14,7 @@ using NationalInstruments.DataTypes;
 using NationalInstruments.Shell;
 using NationalInstruments.SourceModel;
 using LabVIEW.gRPC;
+using System.Threading;
 
 namespace NationalInstruments.VeriStand.GrpcPlugins
 {
@@ -30,7 +31,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         //Assembly lvgrpc = Assembly.LoadFrom(dllPath);
         //Assembly lvgrpc = Assembly.Load("lvgrpc, Version=1.0.0.8, Culture=neutral, PublicKeyToken=null");
 
-        private static IViewModel selectedViewModel;
         private readonly StringIndicatorModel _model;
         /// <summary>
         /// Constructs a new instance of the StringIndicatorViewModel class
@@ -39,8 +39,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         public StringIndicatorViewModel(StringIndicatorModel model)
             : base(model)
         {
-            selectedViewModel = this;
-
             _model = model;
             // Subscribe to the change event of Model
             _model.PropertyChanged += OnModelPropertyChanged;
@@ -168,6 +166,22 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
             // Get the text of possible reason 
             return errTxt;
         }
+
+        private void restartGrpc()
+        {
+            if (gRPCId != 0)
+            {
+                StopGrpc();
+                Thread.Sleep(200);
+                StartGrpc();
+            }
+        }
+
+        private void updateTimerInterval()
+        {
+            if (gRPCId != 0)
+                dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000 / _model.Rate);
+        }
         #endregion
 
         #region ConfigurationPane
@@ -279,9 +293,13 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 switch (parameter.LabelTitle)
                 {
                     case AddressPropName:
-                        textParameter.Text = _model.Addr; break;
+                        textParameter.Text = _model.Addr;
+                        viewModel.restartGrpc();
+                        break;
                     case CertPropName:
-                        textParameter.Text = _model.Cert; break;
+                        textParameter.Text = _model.Cert;
+                        viewModel.restartGrpc();
+                        break;
                     case StringChannelName:
                         textParameter.Text = _model.Channel; break;
                     default:
@@ -293,7 +311,9 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 switch (parameter.LabelTitle)
                 {
                     case RatePropName:
-                        numericParameter.Value = _model.Rate; break;
+                        numericParameter.Value = _model.Rate;
+                        viewModel.updateTimerInterval();
+                        break;
                     case FontSizeName:
                         numericParameter.Value = _model.FontSize;
                         viewModel.FontSize = _model.FontSize;
@@ -316,7 +336,6 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
         private static void HandleExecuteCommand(ICommandParameter parameter, IEnumerable<IViewModel> selection, ICompositionHost host, DocumentEditSite site)
         {
             var viewModel = selection.OfType<ElementViewModel>().First() as StringIndicatorViewModel;
-            var _model = viewModel._model;
             var booleanParameter = parameter as ICheckableCommandParameter;
             var numericParameter = parameter as IValueCommandParameter;
             var textParameter = parameter as ITextCommandParameter;
@@ -330,11 +349,11 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 switch (parameter.LabelTitle)
                 {
                     case AddressPropName:
-                        UpdateSerializedProperty(AddressPropName, textParameter.Text); break;
+                        UpdateSerializedProperty(viewModel, AddressPropName, textParameter.Text); break;
                     case CertPropName:
-                        UpdateSerializedProperty(CertPropName, textParameter.Text); break;
+                        UpdateSerializedProperty(viewModel, CertPropName, textParameter.Text); break;
                     case StringChannelName:
-                        UpdateSerializedProperty(StringChannelName, textParameter.Text); break;
+                        UpdateSerializedProperty(viewModel, StringChannelName, textParameter.Text); break;
                     default:
                         break;
                 }
@@ -344,41 +363,41 @@ namespace NationalInstruments.VeriStand.GrpcPlugins
                 switch (parameter.LabelTitle)
                 {
                     case RatePropName:
-                        UpdateSerializedProperty(RatePropName, numericParameter.Value); break;
+                        UpdateSerializedProperty(viewModel, RatePropName, numericParameter.Value); break;
                     case FontSizeName:
-                        UpdateSerializedProperty(FontSizeName, numericParameter.Value); break;
+                        UpdateSerializedProperty(viewModel, FontSizeName, numericParameter.Value); break;
                     default:
                         break;
                 }
             }
         }
 
-        private static void UpdateSerializedProperty(string channelName, object channelValue)
+        private static void UpdateSerializedProperty(StringIndicatorViewModel viewModel, string channelName, object channelValue)
         {
-            var uiModel = (UIModel)selectedViewModel.Model;
+            var model = viewModel._model;
+
             // we are setting values on the model so start a new transaction. set the purpose of the transaction to user so that it can be undone
-            using (var transaction = uiModel.TransactionManager.BeginTransaction("Set channel", TransactionPurpose.User))
+            using (var transaction = model.TransactionManager.BeginTransaction("Set channel", TransactionPurpose.User))
             {
-                var _uiModel = uiModel as StringIndicatorModel;
-                if (_uiModel != null)
+                if (model != null)
                 {
                     switch (channelName)
                     {
                         case RatePropName:
-                            _uiModel.Rate = (double)channelValue;
+                            model.Rate = (double)channelValue;
                             //_uiModel.NotifyModelChanged("MiddleName");
                             break;
                         case AddressPropName:
-                            _uiModel.Addr = (string)channelValue;
+                            model.Addr = (string)channelValue;
                             break;
                         case CertPropName:
-                            _uiModel.Cert = (string)channelValue;
+                            model.Cert = (string)channelValue;
                             break;
                         case StringChannelName:
-                            _uiModel.Channel = (string)channelValue;
+                            model.Channel = (string)channelValue;
                             break;
                         case FontSizeName:
-                            _uiModel.FontSize = (double)channelValue;
+                            model.FontSize = (double)channelValue;
                             //_uiModel.NotifyModelChanged(nameof(FontSizeName));
                             break;
                         default:
